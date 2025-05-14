@@ -19,6 +19,7 @@ import { DiagnosisPointersModalComponent } from './components/diagnosis-pointers
 import { ContactsBenefitsComponent } from './components/contacts-benefits/contacts-benefits.component';
 import { ContactFitComponent } from './components/contact-fit/contact-fit.component';
 import { EyeglassesTileComponent } from './components/eyeglasses-tile/eyeglasses-tile.component';
+import { LensesTileComponent } from './components/lenses-tile/lenses-tile.component';
 
 interface DiagnosisCode {
   code: string;
@@ -46,7 +47,8 @@ interface DiagnosisCode {
     MatDialogModule,
     ContactsBenefitsComponent,
     ContactFitComponent,
-    EyeglassesTileComponent
+    EyeglassesTileComponent,
+    LensesTileComponent
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
@@ -430,10 +432,9 @@ interface DiagnosisCode {
         </mat-card>
 
         <app-contact-fit></app-contact-fit>
-
         <app-contacts-benefits></app-contacts-benefits>
-
         <app-eyeglasses-tile></app-eyeglasses-tile>
+        <app-lenses-tile></app-lenses-tile>
       </div>
     </div>
   `,
@@ -1146,3 +1147,5 @@ export class ClaimEntryComponent implements OnInit {
     });
   }
 }
+
+export { ClaimEntryComponent }
