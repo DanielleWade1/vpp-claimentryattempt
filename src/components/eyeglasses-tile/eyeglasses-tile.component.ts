@@ -7,6 +7,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialogModule, MatDialog } from '@angular/material/dialog';
+import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/diagnosis-pointers-modal.component';
 
 interface FrameSearchResult {
   manufacturer: string;
@@ -26,12 +28,18 @@ interface FrameSearchResult {
     MatButtonModule,
     MatSelectModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDialogModule
   ],
   template: `
     <mat-card class="eyeglasses-card">
       <mat-card-header>
         <mat-card-title>Eyeglasses</mat-card-title>
+        <div class="header-actions">
+          <button mat-button color="primary" (click)="addDiagnosisCodes()">
+            Add Diagnosis Codes
+          </button>
+        </div>
       </mat-card-header>
 
       <mat-card-content>
@@ -410,6 +418,7 @@ export class EyeglassesTileComponent {
   billedCharged: number | null = null;
 
   searchResults: FrameSearchResult[] = [];
+  diagnosisPointers: string[] = new Array(8).fill('');
 
   drillMountForm: FormGroup;
 
@@ -422,7 +431,10 @@ export class EyeglassesTileComponent {
   sizes = ['Small', 'Medium', 'Large'];
   colors = ['Black', 'Brown', 'Silver', 'Gold'];
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private dialog: MatDialog
+  ) {
     this.drillMountForm = this.fb.group({
       manufacturerName: [''],
       collectionName: [''],
@@ -459,5 +471,17 @@ export class EyeglassesTileComponent {
 
   handleCantFind() {
     console.log('Cannot find frame clicked');
+  }
+
+  addDiagnosisCodes() {
+    const dialogRef = this.dialog.open(DiagnosisPointersModalComponent, {
+      data: { pointers: this.diagnosisPointers }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.diagnosisPointers = result;
+      }
+    });
   }
 }
