@@ -18,6 +18,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { DiagnosisPointersModalComponent } from './components/diagnosis-pointers-modal/diagnosis-pointers-modal.component';
 import { ContactsBenefitsComponent } from './components/contacts-benefits/contacts-benefits.component';
 import { ContactFitComponent } from './components/contact-fit/contact-fit.component';
+import { EyeglassesTileComponent } from './components/eyeglasses-tile/eyeglasses-tile.component';
 
 interface DiagnosisCode {
   code: string;
@@ -44,7 +45,8 @@ interface DiagnosisCode {
     ReactiveFormsModule,
     MatDialogModule,
     ContactsBenefitsComponent,
-    ContactFitComponent
+    ContactFitComponent,
+    EyeglassesTileComponent
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
@@ -430,6 +432,8 @@ interface DiagnosisCode {
         <app-contact-fit></app-contact-fit>
 
         <app-contacts-benefits></app-contacts-benefits>
+
+        <app-eyeglasses-tile></app-eyeglasses-tile>
       </div>
     </div>
   `,
