@@ -1147,5 +1147,3 @@ export class ClaimEntryComponent implements OnInit {
     });
   }
 }
-
-export { ClaimEntryComponent }
