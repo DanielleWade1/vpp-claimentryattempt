@@ -1,0 +1,242 @@
+<div class="app-container">
+  <mat-toolbar class="top-nav">
+    <div class="left-section">
+      <img src="assets/skygen-white.svg" alt="" class="logo">
+      <div class="nav-links">
+        <a href="#" class="nav-link">Home</a>
+        <a href="#" class="nav-link">Authorization</a>
+        <a href="#" class="nav-link">Claims</a>
+        <a href="#" class="nav-link">Entity Management</a>
+        <a href="#" class="nav-link">Resource Center</a>
+        <a href="#" class="nav-link">Contact Us</a>
+      </div>
+    </div>
+    <div class="toolbar-right">
+      <button class="personal-info-button">Hello, Albert Gilbert</button>
+      <mat-icon>notifications</mat-icon>
+    </div>
+  </mat-toolbar>
+
+  <div class="container">
+    <div class="header-row">
+      <h1 class="page-title">Authorization History</h1>
+      <button mat-raised-button class="primary-button">Authorization Dashboard</button>
+    </div>
+
+    <button mat-raised-button class="primary-button" style="margin-bottom: 20px;">
+      Create New Authorization
+    </button>
+
+    <mat-card class="search-card">
+      <mat-card-content>
+        <div class="form-section">
+          <h2>Authorization Information</h2>
+          <div class="form-row">
+            <mat-form-field class="form-field" appearance="outline">
+              <mat-label>Authorization Status</mat-label>
+              <mat-select [(ngModel)]="searchCriteria.status">
+                <mat-option value="">All</mat-option>
+                <mat-option value="pending">Pending</mat-option>
+                <mat-option value="approved">Approved</mat-option>
+                <mat-option value="denied">Denied</mat-option>
+                <mat-option value="determined">Determined</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="form-field" appearance="outline">
+              <mat-label>Authorization Number</mat-label>
+              <input matInput [(ngModel)]="searchCriteria.authNumber">
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field class="form-field date-range-field" appearance="outline">
+              <mat-label>Anticipated Service Date Range</mat-label>
+              <mat-date-range-input [formGroup]="anticipatedServiceDateRange" [rangePicker]="anticipatedPicker">
+                <input matStartDate formControlName="start" placeholder="Start date">
+                <input matEndDate formControlName="end" placeholder="End date">
+              </mat-date-range-input>
+              <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+              <mat-datepicker-toggle matIconSuffix [for]="anticipatedPicker"></mat-datepicker-toggle>
+              <mat-date-range-picker #anticipatedPicker></mat-date-range-picker>
+            </mat-form-field>
+
+            <mat-form-field class="form-field date-range-field" appearance="outline">
+              <mat-label>Entered Date Range</mat-label>
+              <mat-date-range-input [formGroup]="enteredDateRange" [rangePicker]="enteredPicker">
+                <input matStartDate formControlName="start" placeholder="Start date">
+                <input matEndDate formControlName="end" placeholder="End date">
+              </mat-date-range-input>
+              <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+              <mat-datepicker-toggle matIconSuffix [for]="enteredPicker"></mat-datepicker-toggle>
+              <mat-date-range-picker #enteredPicker></mat-date-range-picker>
+            </mat-form-field>
+
+            <mat-form-field class="form-field date-range-field" appearance="outline">
+              <mat-label>Determination Date Range</mat-label>
+              <mat-date-range-input [formGroup]="determinationDateRange" [rangePicker]="determinationPicker">
+                <input matStartDate formControlName="start" placeholder="Start date">
+                <input matEndDate formControlName="end" placeholder="End date">
+              </mat-date-range-input>
+              <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+              <mat-datepicker-toggle matIconSuffix [for]="determinationPicker"></mat-datepicker-toggle>
+              <mat-date-range-picker #determinationPicker></mat-date-range-picker>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h2>Member Information</h2>
+          <div class="form-row">
+            <mat-form-field class="form-field" appearance="outline">
+              <mat-label>First Name</mat-label>
+              <input matInput [(ngModel)]="searchCriteria.firstName">
+            </mat-form-field>
+
+            <mat-form-field class="form-field" appearance="outline">
+              <mat-label>Last Name</mat-label>
+              <input matInput [(ngModel)]="searchCriteria.lastName">
+            </mat-form-field>
+
+            <mat-form-field class="form-field" appearance="outline">
+              <mat-label>Subscriber ID</mat-label>
+              <input matInput [(ngModel)]="searchCriteria.subscriberId">
+            </mat-form-field>
+
+            <mat-form-field class="form-field" appearance="outline">
+              <mat-label>Insurer</mat-label>
+              <mat-select [(ngModel)]="searchCriteria.insurer">
+                <mat-option value="">All</mat-option>
+                <mat-option value="aetna">Aetna</mat-option>
+                <mat-option value="bluecross">Blue Cross</mat-option>
+                <mat-option value="cigna">Cigna</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="button-row">
+          <button mat-raised-button class="primary-button" (click)="search()">Search</button>
+          <button mat-raised-button class="secondary-button" (click)="clearFilters()">Clear Filters</button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="table-card">
+      <mat-card-content>
+        <h2>Authorizations ({{filteredData.length}})</h2>
+        <div class="table-container">
+          <table mat-table [dataSource]="filteredData">
+            <ng-container matColumnDef="authNumber">
+              <th mat-header-cell *matHeaderCellDef>Auth Number</th>
+              <td mat-cell *matCellDef="let element">{{element.authNumber}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="patientName">
+              <th mat-header-cell *matHeaderCellDef>Patient Name</th>
+              <td mat-cell *matCellDef="let element">{{element.patientName}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="dob">
+              <th mat-header-cell *matHeaderCellDef>DOB</th>
+              <td mat-cell *matCellDef="let element">{{element.dob}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="providerName">
+              <th mat-header-cell *matHeaderCellDef>Provider Name</th>
+              <td mat-cell *matCellDef="let element">{{element.providerName}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="anticipatedDOS">
+              <th mat-header-cell *matHeaderCellDef>Anticipated DOS</th>
+              <td mat-cell *matCellDef="let element">{{element.anticipatedDOS}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="enteredDate">
+              <th mat-header-cell *matHeaderCellDef>Entered Date</th>
+              <td mat-cell *matCellDef="let element">{{element.enteredDate}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="determinationDate">
+              <th mat-header-cell *matHeaderCellDef>Determination Date</th>
+              <td mat-cell *matCellDef="let element">{{element.determinationDate}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef>Authorization Status</th>
+              <td mat-cell *matCellDef="let element">{{element.status}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef>Actions</th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-icon-button 
+                        [matMenuTriggerFor]="menu"
+                        [attr.aria-label]="'Actions for authorization ' + element.authNumber"
+                        role="button"
+                        cdkMonitorElementFocus
+                        #menuTrigger="matMenuTrigger"
+                        (keydown.space)="$event.preventDefault(); menuTrigger.openMenu()"
+                        (keydown.enter)="$event.preventDefault(); menuTrigger.openMenu()">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu" class="actions-menu">
+                  <div role="menu" aria-label="Authorization actions">
+                    <button mat-menu-item 
+                            role="menuitem"
+                            (click)="viewDetails(element.authNumber)"
+                            (keydown.enter)="viewDetails(element.authNumber)"
+                            (keydown.space)="viewDetails(element.authNumber)"
+                            tabindex="0">
+                      <mat-icon aria-hidden="true">visibility</mat-icon>
+                      <span>View Details</span>
+                    </button>
+                    <button mat-menu-item 
+                            role="menuitem"
+                            (keydown.enter)="$event.preventDefault()"
+                            (keydown.space)="$event.preventDefault()"
+                            tabindex="0">
+                      <mat-icon aria-hidden="true">edit</mat-icon>
+                      <span>Edit</span>
+                    </button>
+                    <button mat-menu-item 
+                            role="menuitem"
+                            (keydown.enter)="$event.preventDefault()"
+                            (keydown.space)="$event.preventDefault()"
+                            tabindex="0">
+                      <mat-icon aria-hidden="true">print</mat-icon>
+                      <span>Print</span>
+                    </button>
+                  </div>
+                </mat-menu>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="currentDisplayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: currentDisplayedColumns;"></tr>
+          </table>
+        </div>
+
+        <div class="pagination">
+          <div class="items-per-page">
+            <span>Items per page:</span>
+            <mat-select [(value)]="itemsPerPage" style="width: 70px;">
+              <mat-option [value]="10">10</mat-option>
+              <mat-option [value]="25">25</mat-option>
+              <mat-option [value]="50">50</mat-option>
+            </mat-select>
+          </div>
+          <div class="pagination-controls">
+            <span>1-{{filteredData.length}} of {{filteredData.length}}</span>
+            <button mat-icon-button>
+              <mat-icon>chevron_left</mat-icon>
+            </button>
+            <button mat-icon-button>
+              <mat-icon>chevron_right</mat-icon>
+            </button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

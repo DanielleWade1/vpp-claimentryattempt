@@ -1,0 +1,174 @@
+<div class="app-container">
+  <mat-toolbar class="top-nav">
+    <div class="left-section">
+      <img src="assets/skygen-white.svg" alt="" class="logo">
+      <div class="nav-links">
+        <a href="#" class="nav-link">Home</a>
+        <a href="#" class="nav-link">Authorization</a>
+        <a href="#" class="nav-link">Claims</a>
+        <a href="#" class="nav-link">Entity Management</a>
+        <a href="#" class="nav-link">Resource Center</a>
+        <a href="#" class="nav-link">Contact Us</a>
+      </div>
+    </div>
+    <div class="toolbar-right">
+      <button class="personal-info-button">Hello, Albert Gilbert</button>
+      <mat-icon>notifications</mat-icon>
+    </div>
+  </mat-toolbar>
+
+  <div class="container">
+    <button mat-button class="back-button" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+      Back
+    </button>
+
+    <div class="auth-header">
+      <h1>Authorization {{auth?.authNumber}} (Procedure Authorization)</h1>
+      <div class="auth-meta">
+        <div class="meta-item">
+          <span class="label">DOS</span>
+          <span class="value">{{auth?.anticipatedDOS}}</span>
+        </div>
+        <div class="meta-item">
+          <span class="label">Authorization Status</span>
+          <span class="value">{{auth?.status}}</span>
+        </div>
+        <div class="meta-item">
+          <span class="label">Date Received</span>
+          <span class="value">{{auth?.dateReceived}}</span>
+        </div>
+        <div class="meta-item">
+          <span class="label">Date Entered</span>
+          <span class="value">{{auth?.dateEntered}}</span>
+        </div>
+        <div class="meta-item">
+          <span class="label">Expiration Date</span>
+          <span class="value">{{auth?.expirationDate || 'N/A'}}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-cards">
+      <mat-card>
+        <mat-card-content>
+          <h2>Patient Information</h2>
+          <p class="patient-name">{{auth?.patientName}}</p>
+          <p>{{auth?.patientDetails?.address}}</p>
+          <p>{{auth?.patientDetails?.city}}, {{auth?.patientDetails?.state}} {{auth?.patientDetails?.zip}}</p>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card>
+        <mat-card-content>
+          <h2>Provider/Location Information</h2>
+          <p class="provider-name">{{auth?.providerDetails?.name}} ({{auth?.providerDetails?.id}})</p>
+          <p class="provider-name">{{auth?.providerDetails?.practice}} ({{auth?.providerDetails?.id}})</p>
+          <p>{{auth?.providerDetails?.address}}</p>
+          <p>{{auth?.providerDetails?.city}}, {{auth?.providerDetails?.state}} {{auth?.providerDetails?.zip}}</p>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card>
+        <mat-card-content>
+          <h2>Authorization Information</h2>
+          <p>{{auth?.authorizationDetails?.vision}}</p>
+          <p>Benefit Level: {{auth?.authorizationDetails?.benefitLevel}}</p>
+          <p>Referral Number: {{auth?.authorizationDetails?.referralNumber || 'N/A'}}</p>
+          <p>Client Authorization ID: {{auth?.authorizationDetails?.clientAuthId || 'N/A'}}</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <mat-card class="diagnosis-codes">
+      <mat-card-content>
+        <h2>Diagnosis Codes (IDC - 10)</h2>
+        <ol>
+          <li *ngFor="let diagnosis of auth?.diagnosisCodes">
+            {{diagnosis.code}} - {{diagnosis.description}}
+          </li>
+        </ol>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="services">
+      <mat-card-content>
+        <h2>Service(s) Detail</h2>
+        <div *ngFor="let service of auth?.services" class="service-item">
+          <h3>{{service.code}} - {{service.description}}</h3>
+          <div class="service-grid">
+            <div class="grid-item">
+              <span class="label">Quantity</span>
+              <span class="value">{{service.quantity}}</span>
+            </div>
+            <div class="grid-item">
+              <span class="label">Quantity Denied</span>
+              <span class="value">{{service.quantityDenied}}</span>
+            </div>
+            <div class="grid-item">
+              <span class="label">Quantity Consumed</span>
+              <span class="value">{{service.quantityConsumed}}</span>
+            </div>
+            <div class="grid-item">
+              <span class="label">Place of Service</span>
+              <span class="value">{{service.placeOfService}}</span>
+            </div>
+            <div class="grid-item">
+              <span class="label">Service Date From</span>
+              <span class="value">{{service.serviceDateFrom}}</span>
+            </div>
+            <div class="grid-item">
+              <span class="label">Service Date To</span>
+              <span class="value">{{service.serviceDateTo}}</span>
+            </div>
+            <div class="grid-item">
+              <span class="label">Amount Requested</span>
+              <span class="value">{{service.amountRequested || '-'}}</span>
+            </div>
+            <div class="grid-item">
+              <span class="label">Amount Authorized</span>
+              <span class="value">${{service.amountAuthorized}}</span>
+            </div>
+            <div class="grid-item">
+              <span class="label">Determination Date</span>
+              <span class="value">{{service.determinationDate || '-'}}</span>
+            </div>
+            <div class="grid-item">
+              <span class="label">Determination Status</span>
+              <span class="value">{{service.determinationStatus}}</span>
+            </div>
+            <div class="grid-item">
+              <span class="label">Determination Reason</span>
+              <span class="value">{{service.determinationReason || '-'}}</span>
+            </div>
+            <div class="grid-item">
+              <span class="label">Authorization Service</span>
+              <span class="value">{{service.authorizationService}}</span>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="notes">
+      <mat-card-content>
+        <h2>Notes</h2>
+        <p>{{auth?.notes || 'No notes available'}}</p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="amount-authorized">
+      <mat-card-content>
+        <div class="amount-row">
+          <h2>Amount Authorized</h2>
+          <span class="total-amount">${{auth?.amountAuthorized?.toFixed(2)}}</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <div class="rendered-info">
+      <span>Rendered: {{currentDate | date:'MM/dd/yyyy HH:mm a'}}</span>
+      <button mat-raised-button color="primary" (click)="close()">Close</button>
+    </div>
+  </div>
+</div>

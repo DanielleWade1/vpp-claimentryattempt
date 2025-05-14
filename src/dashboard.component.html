@@ -1,0 +1,284 @@
+<div class="app-container">
+  <mat-toolbar class="top-nav">
+    <div class="left-section">
+      <img src="assets/skygen-white.svg" alt="" class="logo">
+      <div class="nav-links">
+        <a href="#" class="nav-link">Home</a>
+        <a (click)="navigateToAuthorizations()" class="nav-link">Authorization</a>
+        <a href="#" class="nav-link">Claims</a>
+        <a href="#" class="nav-link">Entity Management</a>
+        <a href="#" class="nav-link">Resource Center</a>
+        <a href="#" class="nav-link">Contact Us</a>
+      </div>
+    </div>
+    <div class="toolbar-right">
+      <button class="personal-info-button">Hello, Albert Gilbert</button>
+      <mat-icon>notifications</mat-icon>
+    </div>
+  </mat-toolbar>
+
+  <div class="hero-banner">
+    <div class="hero-content">
+      <div class="hero-text">
+        <h1 class="hero-title">Good afternoon, {{providerName}}!</h1>
+        <p class="hero-subtitle">Access your benefits, find providers, and manage your dental health all in one place.</p>
+      </div>
+      <div class="hero-metrics">
+        <div class="metric-card">
+          <div class="metric-label">Active Claims</div>
+          <div class="metric-value">{{claimsInProcess}}</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">New Alerts</div>
+          <div class="metric-value">{{newAlerts}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="top-row">
+      <mat-card class="dashboard-card">
+        <mat-card-content>
+          <h2 class="card-title">Eligibility Checker</h2>
+          <p class="card-content">Check subscriber eligibility to get started with a new claim or authorization.</p>
+          
+          <form [formGroup]="searchForm" class="eligibility-form">
+            <p class="form-hint">* indicates a required field</p>
+            
+            <div class="form-row">
+              <mat-form-field appearance="outline">
+                <mat-label>Location</mat-label>
+                <mat-select formControlName="location">
+                  <mat-option *ngFor="let location of locations" [value]="location">
+                    {{location}}
+                  </mat-option>
+                </mat-select>
+                <mat-error>Location is required</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Provider</mat-label>
+                <mat-select formControlName="provider">
+                  <mat-option *ngFor="let provider of providers" [value]="provider">
+                    {{provider}}
+                  </mat-option>
+                </mat-select>
+                <mat-error>Provider is required</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Date of Service</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="serviceDate">
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error>Date of service is required</mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="search-methods">
+              <mat-radio-group formControlName="searchMethod">
+                <mat-radio-button *ngFor="let method of searchMethods" [value]="method.value">
+                  {{method.label}}
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+
+            <div class="dynamic-fields">
+              <mat-form-field *ngIf="shouldShowField('subscriberId')" appearance="outline">
+                <mat-label>Subscriber ID</mat-label>
+                <input matInput formControlName="subscriberId">
+                <mat-error>Subscriber ID is required</mat-error>
+              </mat-form-field>
+
+              <mat-form-field *ngIf="shouldShowField('firstName')" appearance="outline">
+                <mat-label>First Name</mat-label>
+                <input matInput formControlName="firstName">
+                <mat-error>First name is required</mat-error>
+              </mat-form-field>
+
+              <mat-form-field *ngIf="shouldShowField('lastName')" appearance="outline">
+                <mat-label>Last Name</mat-label>
+                <input matInput formControlName="lastName">
+                <mat-error>Last name is required</mat-error>
+              </mat-form-field>
+
+              <mat-form-field *ngIf="shouldShowField('ssn')" appearance="outline">
+                <mat-label>Last 4 Digits of SSN</mat-label>
+                <input matInput formControlName="ssn" maxlength="4">
+                <mat-error *ngIf="searchForm.get('ssn')?.errors?.['required']">SSN is required</mat-error>
+                <mat-error *ngIf="searchForm.get('ssn')?.errors?.['pattern']">Must be 4 digits</mat-error>
+              </mat-form-field>
+
+              <mat-form-field *ngIf="shouldShowField('dob')" appearance="outline">
+                <mat-label>Date of Birth</mat-label>
+                <input matInput [matDatepicker]="dobPicker" formControlName="dob">
+                <mat-datepicker-toggle matIconSuffix [for]="dobPicker"></mat-datepicker-toggle>
+                <mat-datepicker #dobPicker></mat-datepicker>
+                <mat-error>Date of birth is required</mat-error>
+              </mat-form-field>
+
+              <mat-form-field *ngIf="shouldShowField('medicaidId')" appearance="outline">
+                <mat-label>Medicaid ID</mat-label>
+                <input matInput formControlName="medicaidId">
+                <mat-error>Medicaid ID is required</mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="button-row">
+              <button mat-raised-button class="search-button" (click)="search()">Search</button>
+              <button mat-button (click)="reset()">Reset</button>
+            </div>
+          </form>
+
+          <div *ngIf="showResults" class="search-results">
+            <h3>Search Results ({{searchResults.length}})</h3>
+            
+            <div *ngIf="noResults" class="no-results">
+              No members found matching your search criteria.
+            </div>
+
+            <mat-accordion *ngIf="!noResults" class="results-accordion">
+              <mat-expansion-panel *ngFor="let member of searchResults">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <div class="member-header">
+                      <span class="member-name">{{member.name}}</span>
+                      <span class="member-id">({{member.id}})</span>
+                      <button mat-raised-button 
+                              color="primary" 
+                              class="select-button"
+                              (click)="selectMember($event, member)">
+                        Select
+                      </button>
+                    </div>
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    <div class="member-meta">
+                      <span>DOB: {{member.dob}}</span>
+                      <span>{{member.address}}</span>
+                    </div>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <div class="benefits-container">
+                  <mat-accordion class="nested-accordion" multi>
+                    <mat-expansion-panel *ngFor="let product of member.products">
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          <div class="product-header">
+                            <span class="product-name">{{product.name}}</span>
+                            <span class="eligibility-badge" [class.eligible]="product.isEligible">
+                              {{product.isEligible ? 'Eligible' : 'Not Eligible'}}
+                            </span>
+                          </div>
+                        </mat-panel-title>
+                      </mat-expansion-panel-header>
+
+                      <div class="benefits-scroll">
+                        <div class="benefits-grid">
+                          <div *ngFor="let benefit of product.benefits" class="benefit-tile">
+                            <div class="benefit-header">
+                              <span class="benefit-status" [class.available]="benefit.isAvailable">
+                                {{benefit.isAvailable ? 'Available' : 'Not Available'}}
+                              </span>
+                            </div>
+                            <h4>{{benefit.name}}</h4>
+                          </div>
+                        </div>
+                      </div>
+                    </mat-expansion-panel>
+                  </mat-accordion>
+                </div>
+
+                <div class="family-members" *ngIf="member.familyMembers?.length">
+                  <h4>Family Members</h4>
+                  <div class="member-chips">
+                    <span *ngFor="let familyMember of member.familyMembers" class="member-chip">
+                      {{familyMember}}
+                    </span>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="dashboard-card">
+        <mat-card-content>
+          <h2 class="card-title">News & Alerts <span class="alert-badge">{{newAlerts}}</span></h2>
+          <div class="alerts-container">
+            <app-system-alert></app-system-alert>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="grid-container">
+      <mat-card class="dashboard-card">
+        <mat-card-content>
+          <h2 class="card-title">Claims</h2>
+          <div class="claims-list">
+            <div class="claim-item">
+              <span class="claim-label">Entered</span>
+              <span class="claim-count">{{claimsEntered}}</span>
+            </div>
+            <div class="claim-item">
+              <span class="claim-label">Submitted</span>
+              <span class="claim-count">{{claimsSubmitted}}</span>
+            </div>
+            <div class="claim-item">
+              <span class="claim-label">In Process</span>
+              <span class="claim-count">{{claimsInProcess}}</span>
+            </div>
+            <div class="claim-item">
+              <span class="claim-label">Processed (Last 30 Days)</span>
+              <span class="claim-count">{{claimsProcessedLast30Days}}</span>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="dashboard-card">
+        <mat-card-content>
+          <h2 class="card-title">Payments <button mat-button class="view-button">View</button></h2>
+          <div class="payments-container">
+            <mat-slide-toggle (change)="togglePaymentHistoryView($event)" class="history-toggle">
+              {{paymentHistoryView === 'recent' ? 'Recent' : 'Historical'}}
+            </mat-slide-toggle>
+            
+            <table mat-table [dataSource]="currentTransactions" class="payments-table">
+              <ng-container matColumnDef="transaction_date">
+                <th mat-header-cell *matHeaderCellDef>Date</th>
+                <td mat-cell *matCellDef="let transaction">{{transaction.transaction_date}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="amount">
+                <th mat-header-cell *matHeaderCellDef>Amount</th>
+                <td mat-cell *matCellDef="let transaction">${{transaction.amount.toFixed(2)}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let transaction">
+                  <button mat-button class="view-button" (click)="viewPayment(transaction.transaction_date)">
+                    <a href="javascript:void(0)">View</a>
+                  </button>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <app-incomplete-drafts></app-incomplete-drafts>
+      <app-eyeglass-orders></app-eyeglass-orders>
+      <app-contact-lens-orders></app-contact-lens-orders>
+      <app-quick-access></app-quick-access>
+    </div>
+  </div>
+</div>
