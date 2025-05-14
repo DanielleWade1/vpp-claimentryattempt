@@ -6,8 +6,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialogModule, MatDialog } from '@angular/material/dialog';
+import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
+import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/diagnosis-pointers-modal.component';
 
 @Component({
   selector: 'app-contacts-benefits',
@@ -20,16 +21,17 @@ import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup } from '@angul
     MatInputModule,
     MatButtonModule,
     MatFormFieldModule,
-    MatSlideToggleModule,
-    FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDialogModule
   ],
   template: `
     <mat-card class="contacts-benefits-card">
       <mat-card-header>
         <mat-card-title>Contacts Benefits</mat-card-title>
         <div class="header-actions">
-          <mat-slide-toggle [(ngModel)]="isEnabled" name="isEnabled">On</mat-slide-toggle>
+          <button mat-button color="primary" (click)="addDiagnosisCodes()">
+            Add Diagnosis Codes
+          </button>
         </div>
       </mat-card-header>
 
@@ -274,10 +276,13 @@ import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup } from '@angul
   `]
 })
 export class ContactsBenefitsComponent {
-  isEnabled = true;
   contactsForm: FormGroup;
+  diagnosisPointers: string[] = new Array(8).fill('');
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private dialog: MatDialog
+  ) {
     this.contactsForm = this.fb.group({
       // Right Eye
       rightSearchFormulary: [false],
@@ -302,6 +307,18 @@ export class ContactsBenefitsComponent {
       leftQty: [''],
       leftBilledCharges: [''],
       leftTotalBilled: ['']
+    });
+  }
+
+  addDiagnosisCodes() {
+    const dialogRef = this.dialog.open(DiagnosisPointersModalComponent, {
+      data: { pointers: this.diagnosisPointers }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.diagnosisPointers = result;
+      }
     });
   }
 }
