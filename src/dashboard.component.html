@@ -143,8 +143,10 @@
                 <mat-expansion-panel-header>
                   <mat-panel-title>
                     <div class="member-header">
-                      <span class="member-name">{{member.name}}</span>
-                      <span class="member-id">({{member.id}})</span>
+                      <div class="member-info">
+                        <span class="member-name">{{member.name}}</span>
+                        <span class="member-id">({{member.id}})</span>
+                      </div>
                       <button mat-raised-button 
                               color="primary" 
                               class="select-button"
@@ -160,36 +162,6 @@
                     </div>
                   </mat-panel-description>
                 </mat-expansion-panel-header>
-
-                <div class="benefits-container">
-                  <mat-accordion class="nested-accordion" multi>
-                    <mat-expansion-panel *ngFor="let product of member.products">
-                      <mat-expansion-panel-header>
-                        <mat-panel-title>
-                          <div class="product-header">
-                            <span class="product-name">{{product.name}}</span>
-                            <span class="eligibility-badge" [class.eligible]="product.isEligible">
-                              {{product.isEligible ? 'Eligible' : 'Not Eligible'}}
-                            </span>
-                          </div>
-                        </mat-panel-title>
-                      </mat-expansion-panel-header>
-
-                      <div class="benefits-scroll">
-                        <div class="benefits-grid">
-                          <div *ngFor="let benefit of product.benefits" class="benefit-tile">
-                            <div class="benefit-header">
-                              <span class="benefit-status" [class.available]="benefit.isAvailable">
-                                {{benefit.isAvailable ? 'Available' : 'Not Available'}}
-                              </span>
-                            </div>
-                            <h4>{{benefit.name}}</h4>
-                          </div>
-                        </div>
-                      </div>
-                    </mat-expansion-panel>
-                  </mat-accordion>
-                </div>
 
                 <div class="family-members" *ngIf="member.familyMembers?.length">
                   <h4>Family Members</h4>
