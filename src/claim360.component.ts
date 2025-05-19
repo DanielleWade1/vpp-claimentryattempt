@@ -44,7 +44,7 @@ import { EntriesReviewModalComponent } from './components/entries-review-modal/e
 
         <div class="draft-entries-banner">
           <span>Other entries in progress, some products will not be configurable, view drafts to access those.</span>
-          <button mat-button color="primary" (click)="openEntriesReviewModal()">View Draft Entries</button>
+          <button mat-button class="banner-button" (click)="openEntriesReviewModal()">View Draft Entries</button>
         </div>
         
         <div class="content-section">
@@ -99,8 +99,8 @@ import { EntriesReviewModalComponent } from './components/entries-review-modal/e
     }
 
     .draft-entries-banner {
-      background-color: #e3f2fd;
-      color: #1976d2;
+      background-color: #1a237e;
+      color: white;
       padding: 16px 24px;
       border-radius: 8px;
       margin-bottom: 24px;
@@ -109,12 +109,32 @@ import { EntriesReviewModalComponent } from './components/entries-review-modal/e
       align-items: center;
     }
 
-    .draft-entries-banner button {
+    .draft-entries-banner .banner-button {
+      color: white;
       font-weight: 500;
+      text-decoration: underline;
+    }
+
+    .draft-entries-banner .banner-button:hover {
+      background-color: rgba(255, 255, 255, 0.1);
     }
 
     .claim-stepper {
       margin-bottom: 24px;
+    }
+
+    ::ng-deep .claim-stepper .mat-horizontal-stepper-header-container {
+      background: transparent;
+    }
+
+    ::ng-deep .claim-stepper .mat-step-header {
+      padding: 24px 16px;
+      background: transparent;
+    }
+
+    ::ng-deep .claim-stepper .mat-step-label {
+      font-size: 16px;
+      font-weight: 500;
     }
 
     .page-title {
