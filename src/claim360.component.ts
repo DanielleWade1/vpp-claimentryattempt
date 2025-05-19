@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { Claim360HeaderComponent } from './components/claim360/header/header.component';
 import { InfoCardsComponent } from './components/claim360/info-cards/info-cards.component';
 import { ProductSelectionComponent } from './components/claim360/product-selection/product-selection.component';
 import { ActionSelectorComponent } from './action-selector.component';
 import { ServicesComponent } from './components/claim360/services/services.component';
 import { ServiceCategory, BenefitGroup } from './types';
+import { EntriesReviewModalComponent } from './components/entries-review-modal/entries-review-modal.component';
 
 @Component({
   selector: 'app-claim360',
@@ -17,6 +19,7 @@ import { ServiceCategory, BenefitGroup } from './types';
     CommonModule,
     MatStepperModule,
     MatButtonModule,
+    MatDialogModule,
     Claim360HeaderComponent,
     InfoCardsComponent,
     ProductSelectionComponent,
@@ -209,13 +212,28 @@ export class Claim360Component implements OnInit {
     }
   ];
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit() {
     const recommended = this.products.find(p => p.recommended);
     if (recommended) {
       this.selectedProduct = recommended.id;
     }
+
+    // Open the entries review modal on component initialization
+    this.openEntriesReviewModal();
+  }
+
+  private openEntriesReviewModal(): void {
+    this.dialog.open(EntriesReviewModalComponent, {
+      width: '90%',
+      maxWidth: '1200px',
+      maxHeight: '90vh',
+      disableClose: true
+    });
   }
 
   onProductChange(productId: string) {
