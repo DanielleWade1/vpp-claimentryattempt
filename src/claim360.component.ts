@@ -41,6 +41,11 @@ import { EntriesReviewModalComponent } from './components/entries-review-modal/e
         </mat-stepper>
 
         <h1 class="page-title">Claim 360</h1>
+
+        <div class="draft-entries-banner">
+          <span>Other entries in progress, some products will not be configurable, view drafts to access those.</span>
+          <button mat-button color="primary" (click)="openEntriesReviewModal()">View Draft Entries</button>
+        </div>
         
         <div class="content-section">
           <app-info-cards
@@ -93,6 +98,21 @@ import { EntriesReviewModalComponent } from './components/entries-review-modal/e
       box-sizing: border-box;
     }
 
+    .draft-entries-banner {
+      background-color: #e3f2fd;
+      color: #1976d2;
+      padding: 16px 24px;
+      border-radius: 8px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .draft-entries-banner button {
+      font-weight: 500;
+    }
+
     .claim-stepper {
       margin-bottom: 24px;
     }
@@ -119,7 +139,13 @@ import { EntriesReviewModalComponent } from './components/entries-review-modal/e
 
     @media (max-width: 768px) {
       .claim360-container {
-        padding: 12px;
+        padding: 16px;
+      }
+
+      .draft-entries-banner {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
       }
     }
   `]
@@ -222,12 +248,9 @@ export class Claim360Component implements OnInit {
     if (recommended) {
       this.selectedProduct = recommended.id;
     }
-
-    // Open the entries review modal on component initialization
-    this.openEntriesReviewModal();
   }
 
-  private openEntriesReviewModal(): void {
+  openEntriesReviewModal(): void {
     this.dialog.open(EntriesReviewModalComponent, {
       width: '90%',
       maxWidth: '1200px',
