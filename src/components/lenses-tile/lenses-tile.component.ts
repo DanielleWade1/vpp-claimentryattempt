@@ -49,7 +49,7 @@ import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/dia
         <div class="eye-section">
           <h3>Right Eye</h3>
           <div formGroupName="rightEye">
-            <div class="bal-checkbox">
+            <div class="checkbox-row">
               <mat-checkbox formControlName="bal">Bal</mat-checkbox>
             </div>
 
@@ -333,7 +333,7 @@ import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/dia
       color: #333;
     }
 
-    .bal-checkbox {
+    .checkbox-row {
       margin-bottom: 16px;
     }
 
@@ -346,7 +346,7 @@ import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/dia
     .field-container {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 4px;
     }
 
     .pd-type-container {
@@ -371,6 +371,8 @@ import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/dia
       min-width: 60px;
       border-radius: 20px;
       border-color: #e0e0e0;
+      margin-top: -8px;
+      height: 32px;
     }
 
     .ou-button.selected {
@@ -408,6 +410,18 @@ import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/dia
 
     mat-form-field {
       width: 100%;
+    }
+
+    .eye-grid mat-form-field {
+      height: 55px;
+    }
+
+    ::ng-deep .eye-grid .mat-mdc-form-field-flex {
+      height: 55px !important;
+    }
+
+    ::ng-deep .eye-grid .mat-mdc-text-field-wrapper {
+      height: 55px !important;
     }
 
     .medically-necessary-section {
