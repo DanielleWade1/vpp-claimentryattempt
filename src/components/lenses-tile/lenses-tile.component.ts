@@ -371,7 +371,6 @@ import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/dia
       min-width: 60px;
       border-radius: 20px;
       border-color: #e0e0e0;
-      margin-top: -8px;
       height: 32px;
     }
 
