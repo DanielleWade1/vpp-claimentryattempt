@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/diagnosis-pointers-modal.component';
@@ -23,6 +24,7 @@ import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/dia
     MatInputModule,
     MatSelectModule,
     MatCheckboxModule,
+    MatRadioModule,
     FormsModule,
     ReactiveFormsModule,
     MatDialogModule
@@ -42,6 +44,145 @@ import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/dia
         <div class="code-type">
           <span class="label">Code Type</span>
           <span class="value">ICD - 10</span>
+        </div>
+
+        <div class="eye-section">
+          <h3>Right Eye</h3>
+          <div formGroupName="rightEye">
+            <div class="bal-checkbox">
+              <mat-checkbox formControlName="bal">Bal</mat-checkbox>
+            </div>
+
+            <div class="eye-grid">
+              <div class="field-container">
+                <mat-form-field appearance="outline">
+                  <mat-label>Sphere</mat-label>
+                  <input matInput formControlName="sphere">
+                </mat-form-field>
+                <button mat-stroked-button 
+                        class="ou-button" 
+                        [class.selected]="sphereOU"
+                        (click)="toggleOU('sphere')">
+                  OU
+                </button>
+              </div>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Cylinder</mat-label>
+                <input matInput formControlName="cylinder">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Axis</mat-label>
+                <input matInput formControlName="axis">
+              </mat-form-field>
+
+              <div class="pd-type-container">
+                <label class="pd-type-label">PD Type</label>
+                <mat-radio-group formControlName="pdType">
+                  <mat-radio-button value="BI">BI</mat-radio-button>
+                  <mat-radio-button value="Mono">Mono</mat-radio-button>
+                </mat-radio-group>
+              </div>
+
+              <div class="field-container">
+                <mat-form-field appearance="outline">
+                  <mat-label>Dist/Near</mat-label>
+                  <input matInput formControlName="distNear">
+                </mat-form-field>
+                <button mat-stroked-button 
+                        class="ou-button" 
+                        [class.selected]="distNearOU"
+                        (click)="toggleOU('distNear')">
+                  OU
+                </button>
+              </div>
+
+              <mat-form-field appearance="outline">
+                <mat-label>OC</mat-label>
+                <input matInput formControlName="oc">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>OC Reference</mat-label>
+                <mat-select formControlName="ocReference">
+                  <mat-option value="option1">Option 1</mat-option>
+                  <mat-option value="option2">Option 2</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <div class="field-container">
+                <mat-form-field appearance="outline">
+                  <mat-label>BC</mat-label>
+                  <input matInput formControlName="bc">
+                </mat-form-field>
+                <button mat-stroked-button 
+                        class="ou-button" 
+                        [class.selected]="bcOU"
+                        (click)="toggleOU('bc')">
+                  OU
+                </button>
+              </div>
+
+              <div class="field-container">
+                <mat-form-field appearance="outline">
+                  <mat-label>Hor Prism</mat-label>
+                  <input matInput formControlName="horPrism">
+                </mat-form-field>
+                <button mat-stroked-button 
+                        class="ou-button" 
+                        [class.selected]="horPrismOU"
+                        (click)="toggleOU('horPrism')">
+                  OU
+                </button>
+              </div>
+
+              <div class="field-container">
+                <mat-form-field appearance="outline">
+                  <mat-label>Hor Base Dir</mat-label>
+                  <mat-select formControlName="horBaseDir">
+                    <mat-option value="option1">Option 1</mat-option>
+                    <mat-option value="option2">Option 2</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <button mat-stroked-button 
+                        class="ou-button" 
+                        [class.selected]="horBaseDirOU"
+                        (click)="toggleOU('horBaseDir')">
+                  OU
+                </button>
+              </div>
+
+              <div class="field-container">
+                <mat-form-field appearance="outline">
+                  <mat-label>Vert Prism</mat-label>
+                  <input matInput formControlName="vertPrism">
+                </mat-form-field>
+                <button mat-stroked-button 
+                        class="ou-button" 
+                        [class.selected]="vertPrismOU"
+                        (click)="toggleOU('vertPrism')">
+                  OU
+                </button>
+              </div>
+
+              <div class="field-container">
+                <mat-form-field appearance="outline">
+                  <mat-label>Vert Base Dir</mat-label>
+                  <mat-select formControlName="vertBaseDir">
+                    <mat-option value="option1">Option 1</mat-option>
+                    <mat-option value="option2">Option 2</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <button mat-stroked-button 
+                        class="ou-button" 
+                        [class.selected]="vertBaseDirOU"
+                        (click)="toggleOU('vertBaseDir')">
+                  OU
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="procedures-section">
@@ -177,6 +318,67 @@ import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/dia
       font-weight: 500;
     }
 
+    .eye-section {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .eye-section h3 {
+      margin: 0 0 16px 0;
+      font-size: 16px;
+      font-weight: 500;
+      color: #333;
+    }
+
+    .bal-checkbox {
+      margin-bottom: 16px;
+    }
+
+    .eye-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .field-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .pd-type-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .pd-type-label {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    mat-radio-group {
+      display: flex;
+      gap: 16px;
+    }
+
+    .ou-button {
+      align-self: flex-start;
+      min-width: 60px;
+      border-radius: 20px;
+      border-color: #e0e0e0;
+    }
+
+    .ou-button.selected {
+      background-color: #002F81;
+      color: white;
+      border-color: #002F81;
+    }
+
     .procedures-section {
       margin-bottom: 32px;
     }
@@ -265,6 +467,10 @@ import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/dia
       .modifiers-grid {
         grid-template-columns: repeat(2, 1fr);
       }
+
+      .eye-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 480px) {
@@ -278,11 +484,35 @@ export class LensesTileComponent {
   lensesForm: FormGroup;
   diagnosisPointers: string[] = new Array(8).fill('');
 
+  // OU toggle states
+  sphereOU = false;
+  distNearOU = false;
+  bcOU = false;
+  horPrismOU = false;
+  horBaseDirOU = false;
+  vertPrismOU = false;
+  vertBaseDirOU = false;
+
   constructor(
     private fb: FormBuilder,
     private dialog: MatDialog
   ) {
     this.lensesForm = this.fb.group({
+      rightEye: this.fb.group({
+        bal: [false],
+        sphere: [''],
+        cylinder: [''],
+        axis: [''],
+        pdType: ['BI'],
+        distNear: [''],
+        oc: [''],
+        ocReference: [''],
+        bc: [''],
+        horPrism: [''],
+        horBaseDir: [''],
+        vertPrism: [''],
+        vertBaseDir: ['']
+      }),
       procedureCode1: [''],
       procedureAmount1: [null],
       procedureCode2: [''],
@@ -293,6 +523,32 @@ export class LensesTileComponent {
       modifier3: [''],
       modifier4: ['']
     });
+  }
+
+  toggleOU(field: string) {
+    switch (field) {
+      case 'sphere':
+        this.sphereOU = !this.sphereOU;
+        break;
+      case 'distNear':
+        this.distNearOU = !this.distNearOU;
+        break;
+      case 'bc':
+        this.bcOU = !this.bcOU;
+        break;
+      case 'horPrism':
+        this.horPrismOU = !this.horPrismOU;
+        break;
+      case 'horBaseDir':
+        this.horBaseDirOU = !this.horBaseDirOU;
+        break;
+      case 'vertPrism':
+        this.vertPrismOU = !this.vertPrismOU;
+        break;
+      case 'vertBaseDir':
+        this.vertBaseDirOU = !this.vertBaseDirOU;
+        break;
+    }
   }
 
   addDiagnosisCodes() {
@@ -315,7 +571,20 @@ export class LensesTileComponent {
 
   clearSection() {
     this.lensesForm.reset({
-      medicallyNecessary: false
+      medicallyNecessary: false,
+      rightEye: {
+        bal: false,
+        pdType: 'BI'
+      }
     });
+    
+    // Reset OU toggles
+    this.sphereOU = false;
+    this.distNearOU = false;
+    this.bcOU = false;
+    this.horPrismOU = false;
+    this.horBaseDirOU = false;
+    this.vertPrismOU = false;
+    this.vertBaseDirOU = false;
   }
 }
