@@ -46,6 +46,124 @@ import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/dia
           <span class="value">ICD - 10</span>
         </div>
 
+        <h2 class="section-title">Lenses Details</h2>
+
+        <!-- Right Eye Details -->
+        <div class="eye-section">
+          <h3>Right Eye Details</h3>
+          <div formGroupName="rightEyeDetails">
+            <div class="procedure-row">
+              <div class="procedure-code">
+                <label>Procedure Code</label>
+                <mat-form-field appearance="outline">
+                  <mat-select formControlName="procedureCode">
+                    <mat-option value="code1">Code 1</mat-option>
+                    <mat-option value="code2">Code 2</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="procedure-amount">
+                <label>Procedure Code Cost</label>
+                <mat-form-field appearance="outline">
+                  <span matPrefix>$&nbsp;</span>
+                  <input matInput type="number" formControlName="procedureCost">
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="lens-details-grid">
+              <mat-form-field appearance="outline">
+                <mat-label>Pantoscopic Tilt</mat-label>
+                <mat-select formControlName="pantoscopicTilt">
+                  <mat-option *ngFor="let option of pantoscopicTiltOptions" [value]="option">
+                    {{option}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Frame Wrap Angle</mat-label>
+                <mat-select formControlName="frameWrapAngle">
+                  <mat-option *ngFor="let option of frameWrapAngleOptions" [value]="option">
+                    {{option}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Vertx</mat-label>
+                <mat-select formControlName="vertx">
+                  <mat-option *ngFor="let option of vertxOptions" [value]="option">
+                    {{option}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Eye Rotation Center Distance</mat-label>
+                <mat-select formControlName="eyeRotationCenterDistance">
+                  <mat-option *ngFor="let option of eyeRotationCenterDistanceOptions" [value]="option">
+                    {{option}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Natural Head Position</mat-label>
+                <mat-select formControlName="naturalHeadPosition">
+                  <mat-option *ngFor="let option of naturalHeadPositionOptions" [value]="option">
+                    {{option}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>H/E Ratio</mat-label>
+                <mat-select formControlName="heRatio">
+                  <mat-option *ngFor="let option of heRatioOptions" [value]="option">
+                    {{option}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Stability Coefficient</mat-label>
+                <mat-select formControlName="stabilityCoefficient">
+                  <mat-option *ngFor="let option of stabilityCoefficientOptions" [value]="option">
+                    {{option}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Reading Distance</mat-label>
+                <mat-select formControlName="readingDistance">
+                  <mat-option *ngFor="let option of readingDistanceOptions" [value]="option">
+                    {{option}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>NVB</mat-label>
+                <mat-select formControlName="nvb">
+                  <mat-option *ngFor="let option of nvbOptions" [value]="option">
+                    {{option}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="dominant-eye-section">
+              <label class="dominant-eye-label">Dominant Eye</label>
+              <mat-radio-group formControlName="isDominant">
+                <mat-radio-button [value]="true">Yes</mat-radio-button>
+                <mat-radio-button [value]="false">No</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+        </div>
+
         <!-- Right Eye Section -->
         <div class="eye-section">
           <h3>Right Eye</h3>
@@ -459,6 +577,15 @@ import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/dia
       font-weight: 500;
     }
 
+    .section-title {
+      font-size: 18px;
+      font-weight: 500;
+      color: #333;
+      margin: 0 0 24px 0;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #eee;
+    }
+
     .eye-section {
       background: #f9fafb;
       border: 1px solid #e5e7eb;
@@ -612,6 +739,24 @@ import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/dia
       color: #002F81;
     }
 
+    .lens-details-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .dominant-eye-section {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid #eee;
+    }
+
+    .dominant-eye-label {
+      display: block;
+      margin-bottom: 8px;
+    }
+
     @media (max-width: 768px) {
       .procedure-row {
         grid-template-columns: 1fr;
@@ -623,6 +768,10 @@ import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/dia
       }
 
       .eye-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .lens-details-grid {
         grid-template-columns: 1fr;
       }
     }
@@ -647,11 +796,36 @@ export class LensesTileComponent {
   vertPrismOU = false;
   vertBaseDirOU = false;
 
+  // Options for new dropdowns
+  pantoscopicTiltOptions = ['0°', '2°', '4°', '6°', '8°', '10°'];
+  frameWrapAngleOptions = ['0°', '5°', '10°', '15°', '20°'];
+  vertxOptions = ['8mm', '10mm', '12mm', '14mm', '16mm'];
+  eyeRotationCenterDistanceOptions = ['25mm', '27mm', '29mm', '31mm', '33mm'];
+  naturalHeadPositionOptions = ['Normal', 'Tilted Forward', 'Tilted Back'];
+  heRatioOptions = ['1.0', '1.2', '1.4', '1.6', '1.8', '2.0'];
+  stabilityCoefficientOptions = ['Low', 'Medium', 'High'];
+  readingDistanceOptions = ['35cm', '40cm', '45cm', '50cm'];
+  nvbOptions = ['Low', 'Medium', 'High'];
+
   constructor(
     private fb: FormBuilder,
     private dialog: MatDialog
   ) {
     this.lensesForm = this.fb.group({
+      rightEyeDetails: this.fb.group({
+        procedureCode: [''],
+        procedureCost: [null],
+        pantoscopicTilt: [''],
+        frameWrapAngle: [''],
+        vertx: [''],
+        eyeRotationCenterDistance: [''],
+        naturalHeadPosition: [''],
+        heRatio: [''],
+        stabilityCoefficient: [''],
+        readingDistance: [''],
+        nvb: [''],
+        isDominant: [false]
+      }),
       rightEye: this.fb.group({
         bal: [false],
         sphere: [''],
@@ -735,7 +909,8 @@ export class LensesTileComponent {
   calculateTotalCost(): number {
     const amount1 = this.lensesForm.get('procedureAmount1')?.value || 0;
     const amount2 = this.lensesForm.get('procedureAmount2')?.value || 0;
-    return amount1 + amount2;
+    const rightEyeCost = this.lensesForm.get('rightEyeDetails.procedureCost')?.value || 0;
+    return amount1 + amount2 + rightEyeCost;
   }
 
   clearSection() {
@@ -748,6 +923,9 @@ export class LensesTileComponent {
       leftEye: {
         bal: false,
         pdType: 'BI'
+      },
+      rightEyeDetails: {
+        isDominant: false
       }
     });
     
