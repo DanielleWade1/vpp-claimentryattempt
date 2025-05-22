@@ -46,9 +46,150 @@ import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/dia
           <span class="value">ICD - 10</span>
         </div>
 
+        <!-- Right Eye Section -->
         <div class="eye-section">
           <h3>Right Eye</h3>
           <div formGroupName="rightEye">
+            <div class="checkbox-row">
+              <mat-checkbox formControlName="bal">Bal</mat-checkbox>
+            </div>
+
+            <div class="eye-grid">
+              <div class="field-container">
+                <mat-form-field appearance="outline">
+                  <mat-label>Sphere</mat-label>
+                  <input matInput formControlName="sphere">
+                </mat-form-field>
+                <button mat-stroked-button 
+                        class="ou-button" 
+                        [class.selected]="sphereOU"
+                        (click)="toggleOU('sphere')">
+                  OU
+                </button>
+              </div>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Cylinder</mat-label>
+                <input matInput formControlName="cylinder">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Axis</mat-label>
+                <input matInput formControlName="axis">
+              </mat-form-field>
+
+              <div class="pd-type-container">
+                <label class="pd-type-label">PD Type</label>
+                <mat-radio-group formControlName="pdType">
+                  <mat-radio-button value="BI">BI</mat-radio-button>
+                  <mat-radio-button value="Mono">Mono</mat-radio-button>
+                </mat-radio-group>
+              </div>
+
+              <div class="field-container">
+                <mat-form-field appearance="outline">
+                  <mat-label>Dist/Near</mat-label>
+                  <input matInput formControlName="distNear">
+                </mat-form-field>
+                <button mat-stroked-button 
+                        class="ou-button" 
+                        [class.selected]="distNearOU"
+                        (click)="toggleOU('distNear')">
+                  OU
+                </button>
+              </div>
+
+              <mat-form-field appearance="outline">
+                <mat-label>OC</mat-label>
+                <input matInput formControlName="oc">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>OC Reference</mat-label>
+                <mat-select formControlName="ocReference">
+                  <mat-option value="option1">Option 1</mat-option>
+                  <mat-option value="option2">Option 2</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <div class="field-container">
+                <mat-form-field appearance="outline">
+                  <mat-label>BC</mat-label>
+                  <input matInput formControlName="bc">
+                </mat-form-field>
+                <button mat-stroked-button 
+                        class="ou-button" 
+                        [class.selected]="bcOU"
+                        (click)="toggleOU('bc')">
+                  OU
+                </button>
+              </div>
+
+              <div class="field-container">
+                <mat-form-field appearance="outline">
+                  <mat-label>Hor Prism</mat-label>
+                  <input matInput formControlName="horPrism">
+                </mat-form-field>
+                <button mat-stroked-button 
+                        class="ou-button" 
+                        [class.selected]="horPrismOU"
+                        (click)="toggleOU('horPrism')">
+                  OU
+                </button>
+              </div>
+
+              <div class="field-container">
+                <mat-form-field appearance="outline">
+                  <mat-label>Hor Base Dir</mat-label>
+                  <mat-select formControlName="horBaseDir">
+                    <mat-option value="option1">Option 1</mat-option>
+                    <mat-option value="option2">Option 2</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <button mat-stroked-button 
+                        class="ou-button" 
+                        [class.selected]="horBaseDirOU"
+                        (click)="toggleOU('horBaseDir')">
+                  OU
+                </button>
+              </div>
+
+              <div class="field-container">
+                <mat-form-field appearance="outline">
+                  <mat-label>Vert Prism</mat-label>
+                  <input matInput formControlName="vertPrism">
+                </mat-form-field>
+                <button mat-stroked-button 
+                        class="ou-button" 
+                        [class.selected]="vertPrismOU"
+                        (click)="toggleOU('vertPrism')">
+                  OU
+                </button>
+              </div>
+
+              <div class="field-container">
+                <mat-form-field appearance="outline">
+                  <mat-label>Vert Base Dir</mat-label>
+                  <mat-select formControlName="vertBaseDir">
+                    <mat-option value="option1">Option 1</mat-option>
+                    <mat-option value="option2">Option 2</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <button mat-stroked-button 
+                        class="ou-button" 
+                        [class.selected]="vertBaseDirOU"
+                        (click)="toggleOU('vertBaseDir')">
+                  OU
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Left Eye Section -->
+        <div class="eye-section">
+          <h3>Left Eye</h3>
+          <div formGroupName="leftEye">
             <div class="checkbox-row">
               <mat-checkbox formControlName="bal">Bal</mat-checkbox>
             </div>
@@ -526,6 +667,21 @@ export class LensesTileComponent {
         vertPrism: [''],
         vertBaseDir: ['']
       }),
+      leftEye: this.fb.group({
+        bal: [false],
+        sphere: [''],
+        cylinder: [''],
+        axis: [''],
+        pdType: ['BI'],
+        distNear: [''],
+        oc: [''],
+        ocReference: [''],
+        bc: [''],
+        horPrism: [''],
+        horBaseDir: [''],
+        vertPrism: [''],
+        vertBaseDir: ['']
+      }),
       procedureCode1: [''],
       procedureAmount1: [null],
       procedureCode2: [''],
@@ -586,6 +742,10 @@ export class LensesTileComponent {
     this.lensesForm.reset({
       medicallyNecessary: false,
       rightEye: {
+        bal: false,
+        pdType: 'BI'
+      },
+      leftEye: {
         bal: false,
         pdType: 'BI'
       }
