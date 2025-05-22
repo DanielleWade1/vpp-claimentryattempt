@@ -41,11 +41,6 @@ import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/dia
       </mat-card-header>
 
       <mat-card-content [formGroup]="lensesForm">
-        <div class="code-type">
-          <span class="label">Code Type</span>
-          <span class="value">ICD - 10</span>
-        </div>
-
         <!-- Right Eye Section -->
         <div class="eye-section">
           <h3>Right Eye</h3>
@@ -897,6 +892,9 @@ import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/dia
   `]
 })
 export class LensesTileComponent {
+  lensesForm: FormGroup;
+  diagnosisPointers: string[] = new Array(8).fill('');
+
   // OU toggle states
   sphereOU = false;
   distNearOU = false;
