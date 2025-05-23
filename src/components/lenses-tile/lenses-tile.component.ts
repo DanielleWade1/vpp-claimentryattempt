@@ -327,25 +327,6 @@ import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/dia
         <div class="eye-section">
           <h3>Right Eye Details</h3>
           <div formGroupName="rightEyeDetails">
-            <div class="procedure-row">
-              <div class="procedure-code">
-                <label>Procedure Code</label>
-                <mat-form-field appearance="outline">
-                  <mat-select formControlName="procedureCode">
-                    <mat-option value="code1">Code 1</mat-option>
-                    <mat-option value="code2">Code 2</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <div class="procedure-amount">
-                <label>Procedure Code Cost</label>
-                <mat-form-field appearance="outline">
-                  <span matPrefix>$&nbsp;</span>
-                  <input matInput type="number" formControlName="procedureCost">
-                </mat-form-field>
-              </div>
-            </div>
-
             <div class="lens-details-grid">
               <mat-form-field appearance="outline">
                 <mat-label>Pantoscopic Tilt</mat-label>
@@ -443,25 +424,6 @@ import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/dia
         <div class="eye-section">
           <h3>Left Eye Details</h3>
           <div formGroupName="leftEyeDetails">
-            <div class="procedure-row">
-              <div class="procedure-code">
-                <label>Procedure Code</label>
-                <mat-form-field appearance="outline">
-                  <mat-select formControlName="procedureCode">
-                    <mat-option value="code1">Code 1</mat-option>
-                    <mat-option value="code2">Code 2</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <div class="procedure-amount">
-                <label>Procedure Code Cost</label>
-                <mat-form-field appearance="outline">
-                  <span matPrefix>$&nbsp;</span>
-                  <input matInput type="number" formControlName="procedureCost">
-                </mat-form-field>
-              </div>
-            </div>
-
             <div class="lens-details-grid">
               <mat-form-field appearance="outline">
                 <mat-label>Pantoscopic Tilt</mat-label>
@@ -685,91 +647,6 @@ import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/dia
           </div>
         </div>
 
-        <div class="procedures-section">
-          <div class="procedure-row">
-            <div class="procedure-code">
-              <label>Procedure Code 1 <span class="required">Required</span></label>
-              <mat-form-field appearance="outline">
-                <mat-select formControlName="procedureCode1">
-                  <mat-option value="code1">Code 1</mat-option>
-                  <mat-option value="code2">Code 2</mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-            <div class="procedure-amount">
-              <label>Procedure Code Amount <span class="required">Required</span></label>
-              <mat-form-field appearance="outline">
-                <span matPrefix>$&nbsp;</span>
-                <input matInput type="number" formControlName="procedureAmount1">
-              </mat-form-field>
-            </div>
-          </div>
-
-          <div class="procedure-row">
-            <div class="procedure-code">
-              <label>Procedure Code 2</label>
-              <mat-form-field appearance="outline">
-                <mat-select formControlName="procedureCode2" [disabled]="!lensesForm.get('procedureCode1')?.value">
-                  <mat-option value="code1">Code 1</mat-option>
-                  <mat-option value="code2">Code 2</mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-            <div class="procedure-amount">
-              <label>Procedure Code Amount</label>
-              <mat-form-field appearance="outline">
-                <span matPrefix>$&nbsp;</span>
-                <input matInput type="number" formControlName="procedureAmount2" [disabled]="!lensesForm.get('procedureCode1')?.value">
-              </mat-form-field>
-            </div>
-          </div>
-
-          <div class="medically-necessary-section">
-            <mat-checkbox formControlName="medicallyNecessary">Medically necessary</mat-checkbox>
-          </div>
-
-          <div class="modifiers-section" *ngIf="lensesForm.get('medicallyNecessary')?.value">
-            <div class="modifiers-grid">
-              <div class="modifier-field">
-                <label>Modifier 1</label>
-                <mat-form-field appearance="outline">
-                  <mat-select formControlName="modifier1">
-                    <mat-option value="mod1">Modifier 1</mat-option>
-                    <mat-option value="mod2">Modifier 2</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <div class="modifier-field">
-                <label>Modifier 2</label>
-                <mat-form-field appearance="outline">
-                  <mat-select formControlName="modifier2">
-                    <mat-option value="mod1">Modifier 1</mat-option>
-                    <mat-option value="mod2">Modifier 2</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <div class="modifier-field">
-                <label>Modifier 3</label>
-                <mat-form-field appearance="outline">
-                  <mat-select formControlName="modifier3">
-                    <mat-option value="mod1">Modifier 1</mat-option>
-                    <mat-option value="mod2">Modifier 2</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <div class="modifier-field">
-                <label>Modifier 4</label>
-                <mat-form-field appearance="outline">
-                  <mat-select formControlName="modifier4">
-                    <mat-option value="mod1">Modifier 1</mat-option>
-                    <mat-option value="mod2">Modifier 2</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <mat-card-actions>
           <div class="actions-container">
             <button mat-button color="primary" (click)="clearSection()">Clear Section</button>
@@ -886,33 +763,6 @@ import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/dia
       border-color: #002F81;
     }
 
-    .procedures-section {
-      margin-bottom: 32px;
-    }
-
-    .procedure-row {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 24px;
-      margin-bottom: 16px;
-    }
-
-    .procedure-code, .procedure-amount {
-      display: flex;
-      flex-direction: column;
-    }
-
-    label {
-      margin-bottom: 8px;
-      color: #333;
-      font-weight: 500;
-    }
-
-    .required {
-      color: #f44336;
-      margin-left: 4px;
-    }
-
     mat-form-field {
       width: 100%;
     }
@@ -927,31 +777,6 @@ import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/dia
 
     ::ng-deep .eye-grid .mat-mdc-text-field-wrapper {
       height: 55px !important;
-    }
-
-    .medically-necessary-section {
-      margin: 16px 0;
-    }
-
-    .modifiers-section {
-      margin: 16px 0;
-    }
-
-    .modifiers-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-    }
-
-    .modifier-field {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .modifier-field label {
-      color: #666;
-      font-size: 14px;
     }
 
     mat-card-actions {
@@ -1024,15 +849,6 @@ import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/dia
     }
 
     @media (max-width: 768px) {
-      .procedure-row {
-        grid-template-columns: 1fr;
-        gap: 16px;
-      }
-
-      .modifiers-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
       .eye-grid {
         grid-template-columns: 1fr;
       }
@@ -1087,8 +903,6 @@ export class LensesTileComponent {
   ) {
     this.lensesForm = this.fb.group({
       rightEyeDetails: this.fb.group({
-        procedureCode: [''],
-        procedureCost: [null],
         pantoscopicTilt: [''],
         frameWrapAngle: [''],
         vertx: [''],
@@ -1101,8 +915,6 @@ export class LensesTileComponent {
         isDominant: [false]
       }),
       leftEyeDetails: this.fb.group({
-        procedureCode: [''],
-        procedureCost: [null],
         pantoscopicTilt: [''],
         frameWrapAngle: [''],
         vertx: [''],
@@ -1164,16 +976,7 @@ export class LensesTileComponent {
         // Row 3
         optionThree: [''],
         dollarAmount3: [null]
-      }),
-      procedureCode1: [''],
-      procedureAmount1: [null],
-      procedureCode2: [''],
-      procedureAmount2: [null],
-      medicallyNecessary: [false],
-      modifier1: [''],
-      modifier2: [''],
-      modifier3: [''],
-      modifier4: ['']
+      })
     });
   }
 
@@ -1216,19 +1019,14 @@ export class LensesTileComponent {
   }
 
   calculateTotalCost(): number {
-    const amount1 = this.lensesForm.get('procedureAmount1')?.value || 0;
-    const amount2 = this.lensesForm.get('procedureAmount2')?.value || 0;
-    const rightEyeCost = this.lensesForm.get('rightEyeDetails.procedureCost')?.value || 0;
-    const leftEyeCost = this.lensesForm.get('leftEyeDetails.procedureCost')?.value || 0;
     const lensOptionsAmount1 = this.lensesForm.get('lensOptionsDetails.dollarAmount1')?.value || 0;
     const lensOptionsAmount2 = this.lensesForm.get('lensOptionsDetails.dollarAmount2')?.value || 0;
     const lensOptionsAmount3 = this.lensesForm.get('lensOptionsDetails.dollarAmount3')?.value || 0;
-    return amount1 + amount2 + rightEyeCost + leftEyeCost + lensOptionsAmount1 + lensOptionsAmount2 + lensOptionsAmount3;
+    return lensOptionsAmount1 + lensOptionsAmount2 + lensOptionsAmount3;
   }
 
   clearSection() {
     this.lensesForm.reset({
-      medicallyNecessary: false,
       rightEye: {
         bal: false,
         pdType: 'BI'
