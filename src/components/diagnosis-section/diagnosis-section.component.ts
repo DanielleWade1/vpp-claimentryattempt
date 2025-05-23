@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
+import { ClaimEntryService } from '../../services/claim-entry.service';
 
 interface DiagnosisCode {
   code: string;
@@ -21,6 +23,7 @@ interface DiagnosisCode {
     MatSelectModule,
     MatRadioModule,
     MatFormFieldModule,
+    MatButtonModule,
     FormsModule,
     ReactiveFormsModule
   ],
@@ -255,24 +258,15 @@ interface DiagnosisCode {
         margin-left: 0;
       }
     }
-  `]
+  `],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DiagnosisSectionComponent implements OnInit {
-  diagnosisForm: FormGroup;
+  diagnosisForm = this.claimEntryService.getDiagnosisForm();
   private diagnosisCodesSubject = new BehaviorSubject<DiagnosisCode[]>([]);
   diagnosisCodes$ = this.diagnosisCodesSubject.asObservable();
 
-  constructor(private fb: FormBuilder) {
-    this.diagnosisForm = this.fb.group({
-      primaryDiagnosis: ['', Validators.required],
-      diagnosisCode2: [''],
-      diagnosisCode3: [''],
-      diagnosisCode4: [''],
-      hasDiabetes: ['no', Validators.required],
-      isReferred: ['no', Validators.required],
-      referralCode: ['']
-    });
-  }
+  constructor(private claimEntryService: ClaimEntryService) {}
 
   ngOnInit() {
     this.loadDiagnosisCodes();
@@ -310,10 +304,7 @@ export class DiagnosisSectionComponent implements OnInit {
   }
 
   clearSection() {
-    this.diagnosisForm.reset({
-      hasDiabetes: 'no',
-      isReferred: 'no'
-    });
+    this.claimEntryService.resetDiagnosisForm();
   }
 
   submitForm() {
