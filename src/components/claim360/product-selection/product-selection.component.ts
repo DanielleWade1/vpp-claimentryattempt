@@ -137,7 +137,7 @@ import { FormsModule } from '@angular/forms';
 
     .recommended-tag {
       margin-left: 8px;
-      background: #4caf50;
+      background: #166534;
       color: white;
       padding: 2px 8px;
       border-radius: 12px;
@@ -179,8 +179,18 @@ import { FormsModule } from '@angular/forms';
     }
 
     .status-badge.active {
-      background-color: #e8f5e9;
-      color: #2e7d32;
+      background-color: #166534;
+      color: white;
+    }
+
+    .status-badge.unavailable {
+      background-color: #991B1B;
+      color: white;
+    }
+
+    .status-badge.next-available {
+      background-color: #1E40AF;
+      color: white;
     }
 
     @media (max-width: 1024px) {
