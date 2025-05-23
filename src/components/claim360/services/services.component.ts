@@ -55,14 +55,12 @@ import { MaterialServicesComponent } from './material-services.component';
     }
 
     .banner-message {
-      background-color: #eff6ff;
-      color: #1d4ed8;
+      background-color: #1E40AF;
+      color: white;
       padding: 12px 16px;
       border-radius: 6px;
       margin-bottom: 12px;
       font-weight: 500;
-      border: 1px solid #60a5fa;
-      box-shadow: 0 2px 4px rgba(96, 165, 250, 0.1);
     }
 
     .services-grid {
