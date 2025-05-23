@@ -555,6 +555,136 @@ import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/dia
           </div>
         </div>
 
+        <!-- Lens Options Details -->
+        <div class="eye-section">
+          <h3>Lens Options Details</h3>
+          <div formGroupName="lensOptionsDetails">
+            <div class="lens-options-grid">
+              <!-- Row 1 -->
+              <div class="options-row">
+                <mat-form-field appearance="outline">
+                  <mat-label>Option One</mat-label>
+                  <mat-select formControlName="optionOne">
+                    <mat-option value="option1">Option 1</mat-option>
+                    <mat-option value="option2">Option 2</mat-option>
+                    <mat-option value="option3">Option 3</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Top</mat-label>
+                  <mat-select formControlName="top">
+                    <mat-option value="top1">Top 1</mat-option>
+                    <mat-option value="top2">Top 2</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Top %</mat-label>
+                  <mat-select formControlName="topPercent">
+                    <mat-option value="10">10%</mat-option>
+                    <mat-option value="20">20%</mat-option>
+                    <mat-option value="30">30%</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Bottom</mat-label>
+                  <mat-select formControlName="bottom">
+                    <mat-option value="bottom1">Bottom 1</mat-option>
+                    <mat-option value="bottom2">Bottom 2</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Bottom %</mat-label>
+                  <mat-select formControlName="bottomPercent">
+                    <mat-option value="10">10%</mat-option>
+                    <mat-option value="20">20%</mat-option>
+                    <mat-option value="30">30%</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Full</mat-label>
+                  <mat-select formControlName="full">
+                    <mat-option value="full1">Full 1</mat-option>
+                    <mat-option value="full2">Full 2</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Full %</mat-label>
+                  <mat-select formControlName="fullPercent">
+                    <mat-option value="10">10%</mat-option>
+                    <mat-option value="20">20%</mat-option>
+                    <mat-option value="30">30%</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="amount-field">
+                  <mat-label>Dollar Amount</mat-label>
+                  <span matPrefix>$&nbsp;</span>
+                  <input matInput type="number" formControlName="dollarAmount1">
+                </mat-form-field>
+              </div>
+
+              <!-- Row 2 -->
+              <div class="options-row">
+                <mat-form-field appearance="outline">
+                  <mat-label>Option Two</mat-label>
+                  <mat-select formControlName="optionTwo">
+                    <mat-option value="option1">Option 1</mat-option>
+                    <mat-option value="option2">Option 2</mat-option>
+                    <mat-option value="option3">Option 3</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Full</mat-label>
+                  <mat-select formControlName="fullTwo">
+                    <mat-option value="full1">Full 1</mat-option>
+                    <mat-option value="full2">Full 2</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Full %</mat-label>
+                  <mat-select formControlName="fullPercentTwo">
+                    <mat-option value="10">10%</mat-option>
+                    <mat-option value="20">20%</mat-option>
+                    <mat-option value="30">30%</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="amount-field">
+                  <mat-label>Dollar Amount</mat-label>
+                  <span matPrefix>$&nbsp;</span>
+                  <input matInput type="number" formControlName="dollarAmount2">
+                </mat-form-field>
+              </div>
+
+              <!-- Row 3 -->
+              <div class="options-row">
+                <mat-form-field appearance="outline">
+                  <mat-label>Option Three</mat-label>
+                  <mat-select formControlName="optionThree">
+                    <mat-option value="option1">Option 1</mat-option>
+                    <mat-option value="option2">Option 2</mat-option>
+                    <mat-option value="option3">Option 3</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="amount-field">
+                  <mat-label>Dollar Amount</mat-label>
+                  <span matPrefix>$&nbsp;</span>
+                  <input matInput type="number" formControlName="dollarAmount3">
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="procedures-section">
           <div class="procedure-row">
             <div class="procedure-code">
@@ -865,6 +995,34 @@ import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/dia
       margin-bottom: 8px;
     }
 
+    .lens-options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .options-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 16px;
+      align-items: start;
+    }
+
+    .options-row .amount-field {
+      justify-self: end;
+      min-width: 150px;
+    }
+
+    @media (max-width: 1200px) {
+      .options-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .options-row .amount-field {
+        grid-column: -2 / -1;
+      }
+    }
+
     @media (max-width: 768px) {
       .procedure-row {
         grid-template-columns: 1fr;
@@ -881,6 +1039,14 @@ import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/dia
 
       .lens-details-grid {
         grid-template-columns: 1fr;
+      }
+
+      .options-row {
+        grid-template-columns: 1fr;
+      }
+
+      .options-row .amount-field {
+        grid-column: auto;
       }
     }
 
@@ -904,7 +1070,7 @@ export class LensesTileComponent {
   vertPrismOU = false;
   vertBaseDirOU = false;
 
-  // Options for new dropdowns
+  // Options for dropdowns
   pantoscopicTiltOptions = ['0°', '2°', '4°', '6°', '8°', '10°'];
   frameWrapAngleOptions = ['0°', '5°', '10°', '15°', '20°'];
   vertxOptions = ['8mm', '10mm', '12mm', '14mm', '16mm'];
@@ -978,6 +1144,27 @@ export class LensesTileComponent {
         vertPrism: [''],
         vertBaseDir: ['']
       }),
+      lensOptionsDetails: this.fb.group({
+        // Row 1
+        optionOne: [''],
+        top: [''],
+        topPercent: [''],
+        bottom: [''],
+        bottomPercent: [''],
+        full: [''],
+        fullPercent: [''],
+        dollarAmount1: [null],
+
+        // Row 2
+        optionTwo: [''],
+        fullTwo: [''],
+        fullPercentTwo: [''],
+        dollarAmount2: [null],
+
+        // Row 3
+        optionThree: [''],
+        dollarAmount3: [null]
+      }),
       procedureCode1: [''],
       procedureAmount1: [null],
       procedureCode2: [''],
@@ -1033,7 +1220,10 @@ export class LensesTileComponent {
     const amount2 = this.lensesForm.get('procedureAmount2')?.value || 0;
     const rightEyeCost = this.lensesForm.get('rightEyeDetails.procedureCost')?.value || 0;
     const leftEyeCost = this.lensesForm.get('leftEyeDetails.procedureCost')?.value || 0;
-    return amount1 + amount2 + rightEyeCost + leftEyeCost;
+    const lensOptionsAmount1 = this.lensesForm.get('lensOptionsDetails.dollarAmount1')?.value || 0;
+    const lensOptionsAmount2 = this.lensesForm.get('lensOptionsDetails.dollarAmount2')?.value || 0;
+    const lensOptionsAmount3 = this.lensesForm.get('lensOptionsDetails.dollarAmount3')?.value || 0;
+    return amount1 + amount2 + rightEyeCost + leftEyeCost + lensOptionsAmount1 + lensOptionsAmount2 + lensOptionsAmount3;
   }
 
   clearSection() {
@@ -1052,6 +1242,22 @@ export class LensesTileComponent {
       },
       leftEyeDetails: {
         isDominant: false
+      },
+      lensOptionsDetails: {
+        optionOne: '',
+        top: '',
+        topPercent: '',
+        bottom: '',
+        bottomPercent: '',
+        full: '',
+        fullPercent: '',
+        dollarAmount1: null,
+        optionTwo: '',
+        fullTwo: '',
+        fullPercentTwo: '',
+        dollarAmount2: null,
+        optionThree: '',
+        dollarAmount3: null
       }
     });
     
