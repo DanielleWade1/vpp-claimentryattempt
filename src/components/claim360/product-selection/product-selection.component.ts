@@ -4,7 +4,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
+import { EyeglassesInfoModalComponent } from '../../eyeglasses-info-modal/eyeglasses-info-modal.component';
 
 @Component({
   selector: 'app-product-selection',
@@ -15,6 +17,7 @@ import { FormsModule } from '@angular/forms';
     MatSelectModule,
     MatIconModule,
     MatTooltipModule,
+    MatDialogModule,
     FormsModule
   ],
   template: `
@@ -33,8 +36,8 @@ import { FormsModule } from '@angular/forms';
           <div class="product-info">
             <div class="info-item">
               <span class="label">Eyeglasses:</span>
-              <span class="value">Provider Claim and Order</span>
-              <mat-icon class="info-icon" [matTooltip]="'Information about eyeglasses claims and orders'">info</mat-icon>
+              <span class="value clickable" (click)="openEyeglassesInfoModal()">Provider Claim and Order</span>
+              <mat-icon class="info-icon clickable" (click)="openEyeglassesInfoModal()">info</mat-icon>
             </div>
             <div class="info-item">
               <span class="label">Contact Lenses:</span>
@@ -128,17 +131,29 @@ import { FormsModule } from '@angular/forms';
       flex: 1;
     }
 
+    .info-item .value.clickable,
+    .info-item .info-icon.clickable {
+      cursor: pointer;
+    }
+
+    .info-item .value.clickable:hover {
+      color: #002F81;
+    }
+
     .info-icon {
       font-size: 18px;
       color: #666;
       margin-left: 8px;
-      cursor: help;
+    }
+
+    .info-icon.clickable:hover {
+      color: #002F81;
     }
 
     .recommended-tag {
       margin-left: 8px;
-      background: #166534;
-      color: white;
+      background: #d4edda;
+      color: #155724;
       padding: 2px 8px;
       border-radius: 12px;
       font-size: 12px;
@@ -183,16 +198,6 @@ import { FormsModule } from '@angular/forms';
       color: #155724;
     }
 
-    .status-badge.unavailable {
-      background-color: #991B1B;
-      color: white;
-    }
-
-    .status-badge.next-available {
-      background-color: #1E40AF;
-      color: white;
-    }
-
     @media (max-width: 1024px) {
       .product-tiles {
         grid-template-columns: 1fr;
@@ -207,7 +212,16 @@ export class ProductSelectionComponent {
   @Input() productDetails: any;
   @Output() productChange = new EventEmitter<string>();
 
+  constructor(private dialog: MatDialog) {}
+
   onProductChange(value: string) {
     this.productChange.emit(value);
+  }
+
+  openEyeglassesInfoModal(): void {
+    this.dialog.open(EyeglassesInfoModalComponent, {
+      width: '600px',
+      maxHeight: '90vh'
+    });
   }
 }
