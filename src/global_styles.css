@@ -65,6 +65,29 @@ h4 {
   border-color: #002F81;
 }
 
+/* Custom checkbox styles */
+.mat-mdc-checkbox {
+  --mdc-checkbox-selected-checkmark-color: #fff;
+  --mdc-checkbox-selected-focus-icon-color: #002F81;
+  --mdc-checkbox-selected-hover-icon-color: #002F81;
+  --mdc-checkbox-selected-icon-color: #002F81;
+  --mdc-checkbox-selected-pressed-icon-color: #002F81;
+  --mdc-checkbox-unselected-focus-icon-color: rgba(0, 47, 129, 0.54);
+  --mdc-checkbox-unselected-hover-icon-color: rgba(0, 47, 129, 0.54);
+  --mdc-checkbox-unselected-icon-color: rgba(0, 47, 129, 0.54);
+  --mdc-checkbox-unselected-pressed-icon-color: rgba(0, 47, 129, 0.54);
+  --mat-checkbox-ripple-color: #002F81;
+}
+
+.mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control:enabled:checked ~ .mdc-checkbox__background {
+  border-color: #002F81 !important;
+  background-color: #002F81 !important;
+}
+
+.mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control:enabled ~ .mdc-checkbox__background {
+  border-color: #002F81 !important;
+}
+
 .container {
   padding: 20px;
 }
