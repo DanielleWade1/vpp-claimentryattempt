@@ -179,8 +179,8 @@ import { FormsModule } from '@angular/forms';
     }
 
     .status-badge.active {
-      background-color: #166534;
-      color: white;
+      background-color: #d4edda;
+      color: #155724;
     }
 
     .status-badge.unavailable {
