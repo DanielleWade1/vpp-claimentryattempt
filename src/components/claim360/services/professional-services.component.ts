@@ -151,18 +151,18 @@ import { ServiceCategory, BenefitGroup } from '../../../types';
     }
 
     .status-pill.available {
-      background-color: #166534;
-      color: white;
+      background-color: #d4edda;
+      color: #155724;
     }
 
     .status-pill.unavailable {
-      background-color: #991B1B;
-      color: white;
+      background-color: #f8d7da;
+      color: #721c24;
     }
 
     .status-pill.next-available {
-      background-color: #1E40AF;
-      color: white;
+      background-color: #e3f2fd;
+      color: #1976d2;
     }
 
     .checkbox-container {
