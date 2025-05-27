@@ -7,6 +7,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { EyeglassesInfoModalComponent } from '../../eyeglasses-info-modal/eyeglasses-info-modal.component';
+import { ContactLensesInfoModalComponent } from '../../contact-lenses-info-modal/contact-lenses-info-modal.component';
 
 @Component({
   selector: 'app-product-selection',
@@ -41,8 +42,8 @@ import { EyeglassesInfoModalComponent } from '../../eyeglasses-info-modal/eyegla
             </div>
             <div class="info-item">
               <span class="label">Contact Lenses:</span>
-              <span class="value">Provider Claim Only</span>
-              <mat-icon class="info-icon" [matTooltip]="'Information about contact lens claims'">info</mat-icon>
+              <span class="value clickable" (click)="openContactLensesInfoModal()">Provider Claim Only</span>
+              <mat-icon class="info-icon clickable" (click)="openContactLensesInfoModal()">info</mat-icon>
             </div>
             <div class="info-item">
               <span class="label">Entry Restrictions:</span>
@@ -220,6 +221,13 @@ export class ProductSelectionComponent {
 
   openEyeglassesInfoModal(): void {
     this.dialog.open(EyeglassesInfoModalComponent, {
+      width: '600px',
+      maxHeight: '90vh'
+    });
+  }
+
+  openContactLensesInfoModal(): void {
+    this.dialog.open(ContactLensesInfoModalComponent, {
       width: '600px',
       maxHeight: '90vh'
     });
