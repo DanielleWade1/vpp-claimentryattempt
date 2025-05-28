@@ -9,12 +9,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/diagnosis-pointers-modal.component';
-
-interface FrameSearchResult {
-  manufacturer: string;
-  collection: string;
-  style: string;
-}
+import { FrameSearchResult } from '../../types';
 
 @Component({
   selector: 'app-eyeglasses-tile',
@@ -72,6 +67,11 @@ interface FrameSearchResult {
         </div>
 
         <div *ngIf="showSearchResults" class="search-results">
+          <div class="search-header-actions">
+            <button mat-raised-button color="primary" (click)="restartSearch()">
+              Restart Search
+            </button>
+          </div>
           <table class="search-results-table">
             <thead>
               <tr>
@@ -97,6 +97,11 @@ interface FrameSearchResult {
         </div>
 
         <div *ngIf="showConfiguration" class="configuration-section">
+          <div class="config-header-actions">
+            <button mat-raised-button color="primary" (click)="restartSearch()">
+              Restart Search
+            </button>
+          </div>
           <div class="frame-details">
             <table class="frame-details-table">
               <tr>
@@ -376,6 +381,11 @@ interface FrameSearchResult {
       width: 100%;
     }
 
+    .search-header-actions,
+    .config-header-actions {
+      margin-bottom: 16px;
+    }
+
     ::ng-deep .mat-mdc-raised-button.mat-primary {
       background-color: #002F81 !important;
       color: white !important;
@@ -488,5 +498,17 @@ export class EyeglassesTileComponent {
         this.diagnosisPointers = result;
       }
     });
+  }
+
+  restartSearch() {
+    this.showSearchResults = false;
+    this.showConfiguration = false;
+    this.selectedFrame = null;
+    this.frameSearchQuery = '';
+    this.searchResults = [];
+    this.selectedSize = '';
+    this.selectedColor = '';
+    this.billedCharged = null;
+    this.drillMountForm.reset();
   }
 }
