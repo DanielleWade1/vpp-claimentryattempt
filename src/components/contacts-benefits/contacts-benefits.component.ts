@@ -265,6 +265,24 @@ import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/dia
       border-color: #002F81;
     }
 
+    /* Ensure consistent form field heights */
+    ::ng-deep .contacts-grid .mat-mdc-form-field {
+      height: 56px !important;
+    }
+
+    ::ng-deep .contacts-grid .mat-mdc-text-field-wrapper {
+      height: 56px !important;
+    }
+
+    ::ng-deep .contacts-grid .mat-mdc-form-field-flex {
+      height: 56px !important;
+    }
+
+    ::ng-deep .contacts-grid .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mdc-notched-outline--upgraded .mdc-floating-label--float-above {
+      --mat-mdc-form-field-label-transform: translateY(-25px) scale(0.75);
+      transform: var(--mat-mdc-form-field-label-transform);
+    }
+
     @media (max-width: 768px) {
       .contacts-grid {
         grid-template-columns: 1fr;
