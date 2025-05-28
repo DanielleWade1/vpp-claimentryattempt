@@ -10,6 +10,12 @@ import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup } from '@angul
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/diagnosis-pointers-modal.component';
 
+interface FrameSearchResult {
+  manufacturer: string;
+  collection: string;
+  style: string;
+}
+
 @Component({
   selector: 'app-eyeglasses-tile',
   standalone: true,
