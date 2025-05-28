@@ -376,6 +376,7 @@ import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/dia
               <mat-form-field appearance="outline">
                 <mat-label>H/E Ratio</mat-label>
                 <mat-select formControlName="heRatio">
+                  
                   <mat-option *ngFor="let option of heRatioOptions" [value]="option">
                     {{option}}
                   </mat-option>
