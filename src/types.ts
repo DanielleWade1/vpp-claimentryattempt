@@ -1,3 +1,5 @@
+import { FormGroup } from '@angular/forms';
+
 export interface AuthorizationData {
   authNumber: string;
   patientName: string;
@@ -160,4 +162,10 @@ export interface BenefitGroup {
   name: string;
   note?: string;
   categories: ServiceCategory[];
+}
+
+export interface FrameSearchResult {
+  manufacturer: string;
+  collection: string;
+  style: string;
 }
