@@ -1,58 +1,33 @@
-import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatSelectModule } from '@angular/material/select';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { DiagnosisPointersModalComponent } from './components/diagnosis-pointers-modal/diagnosis-pointers-modal.component';
-import { ContactsBenefitsComponent } from './components/contacts-benefits/contacts-benefits.component';
 import { ContactFitComponent } from './components/contact-fit/contact-fit.component';
+import { ContactsBenefitsComponent } from './components/contacts-benefits/contacts-benefits.component';
 import { EyeglassesTileComponent } from './components/eyeglasses-tile/eyeglasses-tile.component';
 import { LensesTileComponent } from './components/lenses-tile/lenses-tile.component';
 import { MedSurgTileComponent } from './components/med-surg-tile/med-surg-tile.component';
-
-interface DiagnosisCode {
-  code: string;
-  description: string;
-}
+import { OtherCoverageComponent } from './components/other-coverage/other-coverage.component';
 
 @Component({
   selector: 'app-claim-entry',
   standalone: true,
   imports: [
-    CommonModule, 
-    MatCardModule, 
-    MatButtonModule, 
-    MatIconModule, 
+    CommonModule,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
     MatToolbarModule,
-    MatChipsModule,
-    MatSelectModule,
-    MatRadioModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSlideToggleModule,
-    MatCheckboxModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatDialogModule,
-    ContactsBenefitsComponent,
     ContactFitComponent,
+    ContactsBenefitsComponent,
     EyeglassesTileComponent,
     LensesTileComponent,
-    MedSurgTileComponent
+    MedSurgTileComponent,
+    OtherCoverageComponent
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="claim-entry-container">
       <mat-toolbar class="top-nav">
@@ -178,6 +153,7 @@ interface DiagnosisCode {
         <app-eyeglasses-tile></app-eyeglasses-tile>
         <app-lenses-tile></app-lenses-tile>
         <app-med-surg-tile></app-med-surg-tile>
+        <app-other-coverage></app-other-coverage>
       </div>
     </div>
   `,
@@ -475,95 +451,13 @@ interface DiagnosisCode {
         grid-template-columns: 1fr;
       }
     }
-  `]
+  `],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ClaimEntryComponent implements OnInit {
-  diagnosisForm: FormGroup;
-  private diagnosisCodesSubject = new BehaviorSubject<DiagnosisCode[]>([]);
-  diagnosisCodes$ = this.diagnosisCodesSubject.asObservable();
-  diagnosisPointers: string[] = new Array(8).fill('');
-
-  constructor(
-    private router: Router,
-    private fb: FormBuilder,
-    private dialog: MatDialog
-  ) {
-    this.diagnosisForm = this.fb.group({
-      primaryDiagnosis: ['', Validators.required],
-      diagnosisCode2: [''],
-      diagnosisCode3: [''],
-      diagnosisCode4: [''],
-      hasDiabetes: ['no', Validators.required],
-      isReferred: ['no', Validators.required],
-      referralCode: ['']
-    });
-  }
-
-  ngOnInit() {
-    this.loadDiagnosisCodes();
-    this.setupFormValidation();
-  }
-
-  private setupFormValidation() {
-    this.diagnosisForm.get('isReferred')?.valueChanges.subscribe(value => {
-      const referralCodeControl = this.diagnosisForm.get('referralCode');
-      if (value === 'yes') {
-        referralCodeControl?.setValidators([Validators.required]);
-      } else {
-        referralCodeControl?.clearValidators();
-      }
-      referralCodeControl?.updateValueAndValidity();
-    });
-  }
-
-  private loadDiagnosisCodes() {
-    try {
-      const codes: DiagnosisCode[] = [
-        { code: 'CODE1', description: 'Description 1' },
-        { code: 'CODE2', description: 'Description 2' }
-      ];
-      this.diagnosisCodesSubject.next(codes);
-    } catch (error) {
-      console.error('Error loading diagnosis codes:', error);
-    }
-  }
+export class ClaimEntryComponent {
+  constructor(private router: Router) {}
 
   goBack() {
     this.router.navigate(['/claim360']);
-  }
-
-  onReferralChange(value: string) {
-    if (value === 'no') {
-      this.diagnosisForm.patchValue({ referralCode: '' });
-    }
-  }
-
-  clearSection() {
-    this.diagnosisForm.reset({
-      hasDiabetes: 'no',
-      isReferred: 'no'
-    });
-  }
-
-  async submitForm() {
-    if (this.diagnosisForm.valid) {
-      try {
-        const formData = this.diagnosisForm.value;
-        // Handle form submission
-      } catch (error) {
-        console.error('Error submitting form:', error);
-      }
-    } else {
-      this.markFormGroupTouched(this.diagnosisForm);
-    }
-  }
-
-  private markFormGroupTouched(formGroup: FormGroup) {
-    Object.values(formGroup.controls).forEach(control => {
-      control.markAsTouched();
-      if (control instanceof FormGroup) {
-        this.markFormGroupTouched(control);
-      }
-    });
   }
 }
