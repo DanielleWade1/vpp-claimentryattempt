@@ -376,6 +376,11 @@ interface FrameSearchResult {
       width: 100%;
     }
 
+    ::ng-deep .mat-mdc-raised-button.mat-primary {
+      background-color: #002F81 !important;
+      color: white !important;
+    }
+
     @media (max-width: 768px) {
       .patient-supplied-frame {
         flex-direction: column;
