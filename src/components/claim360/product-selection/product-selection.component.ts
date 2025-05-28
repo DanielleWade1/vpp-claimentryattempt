@@ -8,6 +8,7 @@ import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { EyeglassesInfoModalComponent } from '../../eyeglasses-info-modal/eyeglasses-info-modal.component';
 import { ContactLensesInfoModalComponent } from '../../contact-lenses-info-modal/contact-lenses-info-modal.component';
+import { EntryRestrictionsModalComponent } from '../../entry-restrictions-modal/entry-restrictions-modal.component';
 
 @Component({
   selector: 'app-product-selection',
@@ -47,8 +48,8 @@ import { ContactLensesInfoModalComponent } from '../../contact-lenses-info-modal
             </div>
             <div class="info-item">
               <span class="label">Entry Restrictions:</span>
-              <span class="value">None</span>
-              <mat-icon class="info-icon" [matTooltip]="'Information about entry restrictions'">info</mat-icon>
+              <span class="value clickable" (click)="openEntryRestrictionsModal()">None</span>
+              <mat-icon class="info-icon clickable" (click)="openEntryRestrictionsModal()">info</mat-icon>
             </div>
           </div>
           <p class="helper-text">Other plans are available</p>
@@ -228,6 +229,13 @@ export class ProductSelectionComponent {
 
   openContactLensesInfoModal(): void {
     this.dialog.open(ContactLensesInfoModalComponent, {
+      width: '600px',
+      maxHeight: '90vh'
+    });
+  }
+
+  openEntryRestrictionsModal(): void {
+    this.dialog.open(EntryRestrictionsModalComponent, {
       width: '600px',
       maxHeight: '90vh'
     });
