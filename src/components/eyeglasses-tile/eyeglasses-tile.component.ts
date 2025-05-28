@@ -1,21 +1,14 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
-import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/diagnosis-pointers-modal.component';
-
-interface FrameSearchResult {
-  manufacturer: string;
-  collection: string;
-  style: string;
-}
 
 @Component({
   selector: 'app-eyeglasses-tile',
@@ -23,12 +16,11 @@ interface FrameSearchResult {
   imports: [
     CommonModule,
     MatCardModule,
-    MatButtonModule,
-    MatIconModule,
+    MatRadioModule,
     MatFormFieldModule,
     MatInputModule,
+    MatButtonModule,
     MatSelectModule,
-    MatRadioModule,
     FormsModule,
     ReactiveFormsModule,
     MatDialogModule
@@ -38,7 +30,7 @@ interface FrameSearchResult {
       <mat-card-header>
         <mat-card-title>Eyeglasses</mat-card-title>
         <div class="header-actions">
-          <button mat-raised-button color="primary" (click)="addDiagnosisCodes()">
+          <button mat-button color="primary" (click)="addDiagnosisCodes()">
             Add Diagnosis Codes
           </button>
         </div>
