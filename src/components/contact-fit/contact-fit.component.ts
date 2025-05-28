@@ -8,6 +8,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/diagnosis-pointers-modal.component';
 
 @Component({
   selector: 'app-contact-fit',
@@ -22,7 +24,8 @@ import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup } from '@angul
     MatSelectModule,
     MatCheckboxModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDialogModule
   ],
   template: `
     <mat-card class="contact-fit-card">
@@ -273,8 +276,12 @@ import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup } from '@angul
 })
 export class ContactFitComponent {
   contactFitForm: FormGroup;
+  diagnosisPointers: string[] = new Array(8).fill('');
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private dialog: MatDialog
+  ) {
     this.contactFitForm = this.fb.group({
       procedureCode1: [''],
       procedureAmount1: [null],
@@ -289,7 +296,17 @@ export class ContactFitComponent {
   }
 
   addDiagnosisCodes() {
-    // This will be implemented to open the diagnosis codes modal
+    const dialogRef = this.dialog.open(DiagnosisPointersModalComponent, {
+      data: { pointers: this.diagnosisPointers },
+      width: '600px',
+      maxHeight: '90vh'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.diagnosisPointers = result;
+      }
+    });
   }
 
   calculateTotalCost(): number {
