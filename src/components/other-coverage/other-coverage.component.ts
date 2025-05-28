@@ -269,10 +269,14 @@ export class OtherCoverageComponent {
 
     // Add/remove validators based on hasOtherCoverage value
     this.otherCoverageForm.get('hasOtherCoverage')?.valueChanges.subscribe(hasOtherCoverage => {
+      const insuredInfoGroup = this.otherCoverageForm.get('insuredInfo') as FormGroup;
+      const otherInsuredInfoGroup = this.otherCoverageForm.get('otherInsuredInfo') as FormGroup;
+      const otherInsuredInfo2Group = this.otherCoverageForm.get('otherInsuredInfo2') as FormGroup;
+
       const controls = [
-        ...Object.keys(this.otherCoverageForm.get('insuredInfo')?.controls || {}),
-        ...Object.keys(this.otherCoverageForm.get('otherInsuredInfo')?.controls || {}),
-        ...Object.keys(this.otherCoverageForm.get('otherInsuredInfo2')?.controls || {})
+        ...Object.keys(insuredInfoGroup?.controls || {}),
+        ...Object.keys(otherInsuredInfoGroup?.controls || {}),
+        ...Object.keys(otherInsuredInfo2Group?.controls || {})
       ];
 
       controls.forEach(controlName => {
