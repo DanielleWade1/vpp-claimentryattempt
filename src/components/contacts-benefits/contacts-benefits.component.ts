@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatSelectModule } from '@angular/material/select';
-import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatDialogModule, MatDialog } from '@angular/material/dialog';
-import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/diagnosis-pointers-modal.component';
 
 @Component({
@@ -16,11 +17,13 @@ import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/dia
   imports: [
     CommonModule,
     MatCardModule,
-    MatCheckboxModule,
-    MatSelectModule,
-    MatInputModule,
     MatButtonModule,
+    MatIconModule,
     MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    FormsModule,
     ReactiveFormsModule,
     MatDialogModule
   ],
@@ -39,172 +42,152 @@ import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/dia
         <!-- Right Eye Section -->
         <div class="eye-section">
           <h3>Right Eye</h3>
-          <div class="checkbox-row">
-            <mat-checkbox formControlName="rightSearchFormulary">
-              Search Formulary Lenses Only
-            </mat-checkbox>
-            <mat-checkbox formControlName="rightSearchToric">
-              Search Toric Lenses Only
-            </mat-checkbox>
-          </div>
-
-          <div class="contacts-grid">
-            <div class="field-container">
-              <mat-form-field appearance="outline">
-                <mat-label>Style</mat-label>
-                <mat-select formControlName="rightStyle">
-                  <mat-option value="style1">Style 1</mat-option>
-                  <mat-option value="style2">Style 2</mat-option>
-                </mat-select>
-              </mat-form-field>
-              <button mat-stroked-button 
-                      class="ou-button" 
-                      [class.selected]="styleOU"
-                      (click)="toggleOU('style')">
-                OU
-              </button>
+          <div formGroupName="rightEye">
+            <div class="checkbox-row">
+              <mat-checkbox formControlName="rightSearchFormulary">
+                Search Formulary Lenses Only
+              </mat-checkbox>
+              <mat-checkbox formControlName="rightSearchToric">
+                Search Toric Lenses Only
+              </mat-checkbox>
             </div>
 
-            <mat-form-field appearance="outline">
-              <mat-label>Color</mat-label>
-              <mat-select formControlName="rightColor">
-                <mat-option value="color1">Color 1</mat-option>
-                <mat-option value="color2">Color 2</mat-option>
-              </mat-select>
-            </mat-form-field>
+            <div class="contacts-grid">
+              <div class="field-container">
+                <mat-form-field appearance="outline">
+                  <mat-label>Style</mat-label>
+                  <mat-select formControlName="rightStyle">
+                    <mat-option value="style1">Style 1</mat-option>
+                    <mat-option value="style2">Style 2</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <button mat-stroked-button 
+                        class="ou-button" 
+                        [class.selected]="styleOU"
+                        (click)="toggleOU('style')">
+                  OU
+                </button>
+              </div>
 
-            <mat-form-field appearance="outline">
-              <mat-label>Base Curve</mat-label>
-              <mat-select formControlName="rightBaseCurve">
-                <mat-option value="curve1">Curve 1</mat-option>
-                <mat-option value="curve2">Curve 2</mat-option>
-              </mat-select>
-            </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Color</mat-label>
+                <mat-select formControlName="rightColor">
+                  <mat-option value="color1">Color 1</mat-option>
+                  <mat-option value="color2">Color 2</mat-option>
+                </mat-select>
+              </mat-form-field>
 
-            <mat-form-field appearance="outline">
-              <mat-label>Diameter</mat-label>
-              <mat-select formControlName="rightDiameter">
-                <mat-option value="diameter1">Diameter 1</mat-option>
-                <mat-option value="diameter2">Diameter 2</mat-option>
-              </mat-select>
-            </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Base Curve</mat-label>
+                <mat-select formControlName="rightBaseCurve">
+                  <mat-option value="curve1">Curve 1</mat-option>
+                  <mat-option value="curve2">Curve 2</mat-option>
+                </mat-select>
+              </mat-form-field>
 
-            <mat-form-field appearance="outline">
-              <mat-label>Sphere</mat-label>
-              <mat-select formControlName="rightSphere">
-                <mat-option value="sphere1">Sphere 1</mat-option>
-                <mat-option value="sphere2">Sphere 2</mat-option>
-              </mat-select>
-            </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Diameter</mat-label>
+                <mat-select formControlName="rightDiameter">
+                  <mat-option value="diameter1">Diameter 1</mat-option>
+                  <mat-option value="diameter2">Diameter 2</mat-option>
+                </mat-select>
+              </mat-form-field>
 
-            <mat-form-field appearance="outline">
-              <mat-label>Qty/Boxes</mat-label>
-              <input matInput type="number" formControlName="rightQty">
-            </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Sphere</mat-label>
+                <mat-select formControlName="rightSphere">
+                  <mat-option value="sphere1">Sphere 1</mat-option>
+                  <mat-option value="sphere2">Sphere 2</mat-option>
+                </mat-select>
+              </mat-form-field>
 
-            <mat-form-field appearance="outline">
-              <mat-label>Billed Charges</mat-label>
-              <input matInput type="number" formControlName="rightBilledCharges">
-              <span matPrefix>$&nbsp;</span>
-            </mat-form-field>
-          </div>
+              <mat-form-field appearance="outline">
+                <mat-label>Qty/Boxes</mat-label>
+                <input matInput type="number" formControlName="rightQty">
+              </mat-form-field>
 
-          <div class="total-row">
-            <mat-form-field appearance="outline">
-              <mat-label>Total Billed</mat-label>
-              <input matInput type="number" formControlName="rightTotalBilled">
-              <span matPrefix>$&nbsp;</span>
-            </mat-form-field>
-
-            <button mat-stroked-button color="primary" class="ou-button">
-              OU
-            </button>
+              <mat-form-field appearance="outline">
+                <mat-label>Billed Charges</mat-label>
+                <input matInput type="number" formControlName="rightBilledCharges">
+                <span matPrefix>$&nbsp;</span>
+              </mat-form-field>
+            </div>
           </div>
         </div>
 
         <!-- Left Eye Section -->
         <div class="eye-section">
           <h3>Left Eye</h3>
-          <div class="checkbox-row">
-            <mat-checkbox formControlName="leftSearchFormulary">
-              Search Formulary Lenses Only
-            </mat-checkbox>
-            <mat-checkbox formControlName="leftSearchToric">
-              Search Toric Lenses Only
-            </mat-checkbox>
-          </div>
-
-          <div class="contacts-grid">
-            <div class="field-container">
-              <mat-form-field appearance="outline">
-                <mat-label>Style</mat-label>
-                <mat-select formControlName="leftStyle">
-                  <mat-option value="style1">Style 1</mat-option>
-                  <mat-option value="style2">Style 2</mat-option>
-                </mat-select>
-              </mat-form-field>
-              <button mat-stroked-button 
-                      class="ou-button" 
-                      [class.selected]="styleOU"
-                      (click)="toggleOU('style')">
-                OU
-              </button>
+          <div formGroupName="leftEye">
+            <div class="checkbox-row">
+              <mat-checkbox formControlName="leftSearchFormulary">
+                Search Formulary Lenses Only
+              </mat-checkbox>
+              <mat-checkbox formControlName="leftSearchToric">
+                Search Toric Lenses Only
+              </mat-checkbox>
             </div>
 
-            <mat-form-field appearance="outline">
-              <mat-label>Color</mat-label>
-              <mat-select formControlName="leftColor">
-                <mat-option value="color1">Color 1</mat-option>
-                <mat-option value="color2">Color 2</mat-option>
-              </mat-select>
-            </mat-form-field>
+            <div class="contacts-grid">
+              <div class="field-container">
+                <mat-form-field appearance="outline">
+                  <mat-label>Style</mat-label>
+                  <mat-select formControlName="leftStyle">
+                    <mat-option value="style1">Style 1</mat-option>
+                    <mat-option value="style2">Style 2</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <button mat-stroked-button 
+                        class="ou-button" 
+                        [class.selected]="styleOU"
+                        (click)="toggleOU('style')">
+                  OU
+                </button>
+              </div>
 
-            <mat-form-field appearance="outline">
-              <mat-label>Base Curve</mat-label>
-              <mat-select formControlName="leftBaseCurve">
-                <mat-option value="curve1">Curve 1</mat-option>
-                <mat-option value="curve2">Curve 2</mat-option>
-              </mat-select>
-            </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Color</mat-label>
+                <mat-select formControlName="leftColor">
+                  <mat-option value="color1">Color 1</mat-option>
+                  <mat-option value="color2">Color 2</mat-option>
+                </mat-select>
+              </mat-form-field>
 
-            <mat-form-field appearance="outline">
-              <mat-label>Diameter</mat-label>
-              <mat-select formControlName="leftDiameter">
-                <mat-option value="diameter1">Diameter 1</mat-option>
-                <mat-option value="diameter2">Diameter 2</mat-option>
-              </mat-select>
-            </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Base Curve</mat-label>
+                <mat-select formControlName="leftBaseCurve">
+                  <mat-option value="curve1">Curve 1</mat-option>
+                  <mat-option value="curve2">Curve 2</mat-option>
+                </mat-select>
+              </mat-form-field>
 
-            <mat-form-field appearance="outline">
-              <mat-label>Sphere</mat-label>
-              <mat-select formControlName="leftSphere">
-                <mat-option value="sphere1">Sphere 1</mat-option>
-                <mat-option value="sphere2">Sphere 2</mat-option>
-              </mat-select>
-            </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Diameter</mat-label>
+                <mat-select formControlName="leftDiameter">
+                  <mat-option value="diameter1">Diameter 1</mat-option>
+                  <mat-option value="diameter2">Diameter 2</mat-option>
+                </mat-select>
+              </mat-form-field>
 
-            <mat-form-field appearance="outline">
-              <mat-label>Qty/Boxes</mat-label>
-              <input matInput type="number" formControlName="leftQty">
-            </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Sphere</mat-label>
+                <mat-select formControlName="leftSphere">
+                  <mat-option value="sphere1">Sphere 1</mat-option>
+                  <mat-option value="sphere2">Sphere 2</mat-option>
+                </mat-select>
+              </mat-form-field>
 
-            <mat-form-field appearance="outline">
-              <mat-label>Billed Charges</mat-label>
-              <input matInput type="number" formControlName="leftBilledCharges">
-              <span matPrefix>$&nbsp;</span>
-            </mat-form-field>
-          </div>
+              <mat-form-field appearance="outline">
+                <mat-label>Qty/Boxes</mat-label>
+                <input matInput type="number" formControlName="leftQty">
+              </mat-form-field>
 
-          <div class="total-row">
-            <mat-form-field appearance="outline">
-              <mat-label>Total Billed</mat-label>
-              <input matInput type="number" formControlName="leftTotalBilled">
-              <span matPrefix>$&nbsp;</span>
-            </mat-form-field>
-
-            <button mat-stroked-button color="primary" class="ou-button">
-              OU
-            </button>
+              <mat-form-field appearance="outline">
+                <mat-label>Billed Charges</mat-label>
+                <input matInput type="number" formControlName="leftBilledCharges">
+                <span matPrefix>$&nbsp;</span>
+              </mat-form-field>
+            </div>
           </div>
         </div>
       </mat-card-content>
@@ -268,16 +251,6 @@ import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/dia
       gap: 4px;
     }
 
-    .total-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
-    }
-
-    .total-row mat-form-field {
-      width: 200px;
-    }
-
     .ou-button {
       align-self: flex-start;
       min-width: 60px;
@@ -314,29 +287,28 @@ export class ContactsBenefitsComponent {
     private dialog: MatDialog
   ) {
     this.contactsForm = this.fb.group({
-      // Right Eye
-      rightSearchFormulary: [false],
-      rightSearchToric: [false],
-      rightStyle: [''],
-      rightColor: [''],
-      rightBaseCurve: [''],
-      rightDiameter: [''],
-      rightSphere: [''],
-      rightQty: [''],
-      rightBilledCharges: [''],
-      rightTotalBilled: [''],
-
-      // Left Eye
-      leftSearchFormulary: [false],
-      leftSearchToric: [false],
-      leftStyle: [''],
-      leftColor: [''],
-      leftBaseCurve: [''],
-      leftDiameter: [''],
-      leftSphere: [''],
-      leftQty: [''],
-      leftBilledCharges: [''],
-      leftTotalBilled: ['']
+      rightEye: this.fb.group({
+        rightSearchFormulary: [false],
+        rightSearchToric: [false],
+        rightStyle: [''],
+        rightColor: [''],
+        rightBaseCurve: [''],
+        rightDiameter: [''],
+        rightSphere: [''],
+        rightQty: [''],
+        rightBilledCharges: ['']
+      }),
+      leftEye: this.fb.group({
+        leftSearchFormulary: [false],
+        leftSearchToric: [false],
+        leftStyle: [''],
+        leftColor: [''],
+        leftBaseCurve: [''],
+        leftDiameter: [''],
+        leftSphere: [''],
+        leftQty: [''],
+        leftBilledCharges: ['']
+      })
     });
   }
 
@@ -356,8 +328,8 @@ export class ContactsBenefitsComponent {
     if (field === 'style') {
       this.styleOU = !this.styleOU;
       if (this.styleOU) {
-        const rightValue = this.contactsForm.get('rightStyle')?.value;
-        this.contactsForm.patchValue({
+        const rightValue = this.contactsForm.get('rightEye.rightStyle')?.value;
+        this.contactsForm.get('leftEye')?.patchValue({
           leftStyle: rightValue
         });
       }
