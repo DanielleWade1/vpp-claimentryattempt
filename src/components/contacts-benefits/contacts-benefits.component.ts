@@ -49,13 +49,21 @@ import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/dia
           </div>
 
           <div class="contacts-grid">
-            <mat-form-field appearance="outline">
-              <mat-label>Style</mat-label>
-              <mat-select formControlName="rightStyle">
-                <mat-option value="style1">Style 1</mat-option>
-                <mat-option value="style2">Style 2</mat-option>
-              </mat-select>
-            </mat-form-field>
+            <div class="field-container">
+              <mat-form-field appearance="outline">
+                <mat-label>Style</mat-label>
+                <mat-select formControlName="rightStyle">
+                  <mat-option value="style1">Style 1</mat-option>
+                  <mat-option value="style2">Style 2</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <button mat-stroked-button 
+                      class="ou-button" 
+                      [class.selected]="styleOU"
+                      (click)="toggleOU('style')">
+                OU
+              </button>
+            </div>
 
             <mat-form-field appearance="outline">
               <mat-label>Color</mat-label>
@@ -127,13 +135,21 @@ import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/dia
           </div>
 
           <div class="contacts-grid">
-            <mat-form-field appearance="outline">
-              <mat-label>Style</mat-label>
-              <mat-select formControlName="leftStyle">
-                <mat-option value="style1">Style 1</mat-option>
-                <mat-option value="style2">Style 2</mat-option>
-              </mat-select>
-            </mat-form-field>
+            <div class="field-container">
+              <mat-form-field appearance="outline">
+                <mat-label>Style</mat-label>
+                <mat-select formControlName="leftStyle">
+                  <mat-option value="style1">Style 1</mat-option>
+                  <mat-option value="style2">Style 2</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <button mat-stroked-button 
+                      class="ou-button" 
+                      [class.selected]="styleOU"
+                      (click)="toggleOU('style')">
+                OU
+              </button>
+            </div>
 
             <mat-form-field appearance="outline">
               <mat-label>Color</mat-label>
@@ -201,9 +217,6 @@ import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/dia
 
     mat-card-header {
       padding: 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
       border-bottom: 1px solid #eee;
     }
 
@@ -249,6 +262,12 @@ import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/dia
       margin-bottom: 24px;
     }
 
+    .field-container {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
     .total-row {
       display: flex;
       align-items: flex-start;
@@ -260,7 +279,17 @@ import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/dia
     }
 
     .ou-button {
-      margin-top: 4px;
+      align-self: flex-start;
+      min-width: 60px;
+      border-radius: 20px;
+      border-color: #e0e0e0;
+      height: 32px;
+    }
+
+    .ou-button.selected {
+      background-color: #002F81;
+      color: white;
+      border-color: #002F81;
     }
 
     @media (max-width: 768px) {
@@ -278,6 +307,7 @@ import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/dia
 export class ContactsBenefitsComponent {
   contactsForm: FormGroup;
   diagnosisPointers: string[] = new Array(8).fill('');
+  styleOU = false;
 
   constructor(
     private fb: FormBuilder,
@@ -320,5 +350,17 @@ export class ContactsBenefitsComponent {
         this.diagnosisPointers = result;
       }
     });
+  }
+
+  toggleOU(field: string) {
+    if (field === 'style') {
+      this.styleOU = !this.styleOU;
+      if (this.styleOU) {
+        const rightValue = this.contactsForm.get('rightStyle')?.value;
+        this.contactsForm.patchValue({
+          leftStyle: rightValue
+        });
+      }
+    }
   }
 }
