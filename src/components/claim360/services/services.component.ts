@@ -55,8 +55,8 @@ import { MaterialServicesComponent } from './material-services.component';
     }
 
     .banner-message {
-      background-color: #1E40AF;
-      color: white;
+      background-color: #E3F2FD;
+      color: #146BB8;
       padding: 12px 16px;
       border-radius: 6px;
       margin-bottom: 12px;
