@@ -60,7 +60,7 @@ import { EntryRestrictionsModalComponent } from '../../entry-restrictions-modal/
 
       <mat-card class="product-details">
         <mat-card-content>
-          <h3>Selected Product Details</h3>
+          <h3>Selected Plan Details</h3>
           <div class="details-grid">
             <div class="grid-item">
               <span class="label">Eligibility Status</span>
