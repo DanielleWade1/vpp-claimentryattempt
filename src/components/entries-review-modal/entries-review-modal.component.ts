@@ -27,7 +27,7 @@ interface EntryItem {
       </div>
 
       <div class="modal-description">
-        The entries listed below are either incomplete or submitted. Incomplete entries were started but not submitted and will expire when the window closes. Submitted entries are in the review period and can be edited until the window closes. Click Close to proceed to the Member 360 where you will be able to enter something new. Please note, you will not be able to enter a claim or an order for a benefit that currently has an incomplete or submitted entry.
+        The entries listed below are either incomplete or submitted. Incomplete entries were started but not submitted and will expire when the window closes. Submitted entries are in the review period and can be edited until the window closes. Click "Create New Entry" to proceed to the Member 360 where you will be able to enter something new. Please note, you will not be able to enter a claim or an order for a benefit that currently has an incomplete or submitted entry.
       </div>
 
       <button mat-raised-button color="primary" class="create-entry-button" (click)="close()">
