@@ -41,7 +41,7 @@ interface EntryItem {
             <tr>
               <th>DOS</th>
               <th>Type</th>
-              <th>Vision Benefit</th>
+              <th>Plan</th>
               <th>Services/Materials</th>
               <th>Window Closes</th>
               <th>Action</th>
