@@ -35,6 +35,16 @@ import { EntryRestrictionsModalComponent } from '../../entry-restrictions-modal/
               </mat-option>
             </mat-select>
           </mat-form-field>
+
+          <mat-form-field appearance="outline" class="place-of-service">
+            <mat-label>Place of Service</mat-label>
+            <mat-select [(ngModel)]="selectedPlaceOfService">
+              <mat-option *ngFor="let option of placeOfServiceOptions" [value]="option.code">
+                {{option.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
           <div class="product-info">
             <div class="info-item">
               <span class="label">Eyeglasses:</span>
@@ -102,6 +112,12 @@ import { EntryRestrictionsModalComponent } from '../../entry-restrictions-modal/
 
     .product-select {
       width: 100%;
+      margin-bottom: 16px;
+    }
+
+    .place-of-service {
+      width: 100%;
+      margin-bottom: 16px;
     }
 
     .product-info {
@@ -213,6 +229,20 @@ export class ProductSelectionComponent {
   @Input() selectedDate: string = '';
   @Input() productDetails: any;
   @Output() productChange = new EventEmitter<string>();
+
+  selectedPlaceOfService: string = '';
+  placeOfServiceOptions = [
+    { code: '11', name: 'Office' },
+    { code: '12', name: 'Home' },
+    { code: '19', name: 'Off Campus-Outpatient Hospital' },
+    { code: '22', name: 'On Campus-Outpatient Hospital' },
+    { code: '23', name: 'Emergency Room - Hospital' },
+    { code: '24', name: 'Ambulatory Surgical Center' },
+    { code: '31', name: 'Skilled Nursing Facility' },
+    { code: '32', name: 'Nursing Facility' },
+    { code: '33', name: 'Custodial Care Facility' },
+    { code: '34', name: 'Hospice' }
+  ];
 
   constructor(private dialog: MatDialog) {}
 
