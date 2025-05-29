@@ -26,8 +26,9 @@ import { EntryRestrictionsModalComponent } from '../../entry-restrictions-modal/
     <div class="product-tiles">
       <mat-card class="product-selector">
         <mat-card-content>
-          <h3>Select Product</h3>
+          <h3>Selected Plan: {{getSelectedProductName()}}</h3>
           <mat-form-field appearance="outline" class="product-select">
+            <mat-label>Select Product</mat-label>
             <mat-select [(value)]="selectedProduct" (valueChange)="onProductChange($event)">
               <mat-option *ngFor="let product of products" [value]="product.id">
                 {{product.name}}
@@ -248,6 +249,11 @@ export class ProductSelectionComponent {
 
   onProductChange(value: string) {
     this.productChange.emit(value);
+  }
+
+  getSelectedProductName(): string {
+    const product = this.products.find(p => p.id === this.selectedProduct);
+    return product ? product.name : 'None Selected';
   }
 
   openEyeglassesInfoModal(): void {
