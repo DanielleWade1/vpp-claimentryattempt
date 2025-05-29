@@ -84,98 +84,23 @@ import { EntriesReviewModalComponent } from './components/entries-review-modal/e
       </div>
     </div>
   `,
-  styles: [`
-    .app-container {
-      min-height: 100vh;
-      background-color: #f5f5f5;
-    }
-
-    .claim360-container {
-      max-width: 1800px;
-      margin: 0 auto;
-      padding: 24px;
-      width: 100%;
-      box-sizing: border-box;
-    }
-
-    .draft-entries-banner {
-      background-color: #1a237e;
-      color: white;
-      padding: 16px 24px;
-      border-radius: 8px;
-      margin-bottom: 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .draft-entries-banner .banner-button {
-      color: white;
-      font-weight: 500;
-      text-decoration: underline;
-    }
-
-    .draft-entries-banner .banner-button:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
-
-    .claim-stepper {
-      margin-bottom: 24px;
-    }
-
-    ::ng-deep .claim-stepper .mat-horizontal-stepper-header-container {
-      background: transparent;
-    }
-
-    ::ng-deep .claim-stepper .mat-step-header {
-      padding: 24px 16px;
-      background: transparent;
-    }
-
-    ::ng-deep .claim-stepper .mat-step-label {
-      font-size: 16px;
-      font-weight: 500;
-    }
-
-    .page-title {
-      font-size: 32px;
-      font-weight: 500;
-      color: #333;
-      margin: 0 0 24px 0;
-    }
-
-    .content-section {
-      background: white;
-      border-radius: 8px;
-      padding: 24px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      margin-bottom: 24px;
-    }
-
-    .continue-button {
-      background-color: #002F81 !important;
-      color: white !important;
-    }
-
-    @media (max-width: 768px) {
-      .claim360-container {
-        padding: 16px;
-      }
-
-      .draft-entries-banner {
-        flex-direction: column;
-        gap: 12px;
-        text-align: center;
-      }
-    }
-  `]
+  styleUrls: ['./claim360.component.css']
 })
 export class Claim360Component implements OnInit {
   selectedProduct = 'product-a';
-  selectedAction = 'claim';
+  private _selectedAction = 'claim';
   selectedDate = '04/24/2025';
   hasGlassesOrder = false;
   hasContactLensOrder = false;
+
+  get selectedAction(): string {
+    return this._selectedAction;
+  }
+
+  set selectedAction(value: string) {
+    this._selectedAction = value;
+    this.applyActionSpecificStatuses();
+  }
 
   patientInfo = {
     name: 'Tony Perez',
@@ -211,22 +136,22 @@ export class Claim360Component implements OnInit {
     {
       name: 'Core',
       categories: [
-        { name: 'Exam', status: 'Available', selected: false, disabled: false, nextAvailable: '1/1/2026' },
-        { name: 'Contact Lens Fit', status: 'Available', selected: false, disabled: false }
+        { name: 'Exam', status: 'Available', originalStatus: 'Available', selected: false, disabled: false, nextAvailable: '1/1/2026' },
+        { name: 'Contact Lens Fit', status: 'Available', originalStatus: 'Available', selected: false, disabled: false }
       ]
     },
     {
       name: 'Pediatric',
       note: 'must be 13 or younger',
       categories: [
-        { name: 'Exam', status: 'Available', selected: false, disabled: false }
+        { name: 'Exam', status: 'Available', originalStatus: 'Available', selected: false, disabled: false }
       ]
     },
     {
       name: 'Maternity',
       note: 'must be pregnant',
       categories: [
-        { name: 'Exam', status: 'Unavailable', selected: false, disabled: false }
+        { name: 'Exam', status: 'Unavailable', originalStatus: 'Unavailable', selected: false, disabled: false }
       ]
     }
   ];
@@ -235,25 +160,25 @@ export class Claim360Component implements OnInit {
     {
       name: 'Core',
       categories: [
-        { name: 'Frame', status: 'Available', selected: false, disabled: false },
-        { name: 'Lenses', status: 'Available', selected: false, disabled: false },
-        { name: 'Contact Lenses', status: 'Available', selected: false, disabled: false }
+        { name: 'Frame', status: 'Available', originalStatus: 'Available', selected: false, disabled: false },
+        { name: 'Lenses', status: 'Available', originalStatus: 'Available', selected: false, disabled: false },
+        { name: 'Contact Lenses', status: 'Available', originalStatus: 'Available', selected: false, disabled: false }
       ]
     },
     {
       name: 'Pediatric',
       note: 'must be 13 or younger',
       categories: [
-        { name: 'Frame', status: 'Available', selected: false, disabled: false },
-        { name: 'Lenses', status: 'Available', selected: false, disabled: false }
+        { name: 'Frame', status: 'Available', originalStatus: 'Available', selected: false, disabled: false },
+        { name: 'Lenses', status: 'Available', originalStatus: 'Available', selected: false, disabled: false }
       ]
     },
     {
       name: 'Maternity',
       note: 'must be pregnant',
       categories: [
-        { name: 'Frame', status: 'Available', selected: false, disabled: false },
-        { name: 'Lenses', status: 'Available', selected: false, disabled: false }
+        { name: 'Frame', status: 'Available', originalStatus: 'Available', selected: false, disabled: false },
+        { name: 'Lenses', status: 'Available', originalStatus: 'Available', selected: false, disabled: false }
       ]
     }
   ];
@@ -268,6 +193,30 @@ export class Claim360Component implements OnInit {
     if (recommended) {
       this.selectedProduct = recommended.id;
     }
+    this.applyActionSpecificStatuses();
+  }
+
+  private applyActionSpecificStatuses() {
+    const updateBenefitStatuses = (benefits: BenefitGroup[]) => {
+      benefits.forEach(benefit => {
+        benefit.categories.forEach(category => {
+          if (this._selectedAction === 'auth') {
+            if (category.disabled) {
+              category.status = 'Auth Not Required';
+            } else if (category.originalStatus === 'Available') {
+              category.status = 'Auth Entry Available';
+            } else {
+              category.status = 'Auth Not Required';
+            }
+          } else {
+            category.status = category.originalStatus || 'Available';
+          }
+        });
+      });
+    };
+
+    updateBenefitStatuses(this.professionalBenefits);
+    updateBenefitStatuses(this.materialBenefits);
   }
 
   openEntriesReviewModal(): void {
@@ -296,6 +245,7 @@ export class Claim360Component implements OnInit {
           }
         });
       });
+      this.applyActionSpecificStatuses();
       return;
     }
 
@@ -307,6 +257,7 @@ export class Claim360Component implements OnInit {
         }
       });
     });
+    this.applyActionSpecificStatuses();
   }
 
   onMaterialServiceSelect(benefitName: string, selectedCategory: ServiceCategory) {
@@ -320,6 +271,7 @@ export class Claim360Component implements OnInit {
       }
 
       this.updateBannerStates();
+      this.applyActionSpecificStatuses();
       return;
     }
 
@@ -333,6 +285,7 @@ export class Claim360Component implements OnInit {
     });
 
     this.updateBannerStates();
+    this.applyActionSpecificStatuses();
   }
 
   private enableAllMaterialBenefits() {

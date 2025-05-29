@@ -1,5 +1,3 @@
-import { FormGroup } from '@angular/forms';
-
 export interface AuthorizationData {
   authNumber: string;
   patientName: string;
@@ -152,10 +150,11 @@ export interface Benefit {
 
 export interface ServiceCategory {
   name: string;
-  status: 'Available' | 'Unavailable';
+  status: 'Available' | 'Unavailable' | 'Auth Required' | 'Auth Not Required' | 'Auth Entry Available';
   selected: boolean;
   disabled: boolean;
   nextAvailable?: string;
+  originalStatus?: 'Available' | 'Unavailable';
 }
 
 export interface BenefitGroup {
