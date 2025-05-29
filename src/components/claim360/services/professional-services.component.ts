@@ -41,7 +41,10 @@ import { ServiceCategory, BenefitGroup } from '../../../types';
                   <span *ngIf="!category.nextAvailable" 
                         class="status-pill"
                         [class.available]="category.status === 'Available'"
-                        [class.unavailable]="category.status === 'Unavailable'">
+                        [class.unavailable]="category.status === 'Unavailable'"
+                        [class.auth-required]="category.status === 'Auth Required'"
+                        [class.auth-not-required]="category.status === 'Auth Not Required'"
+                        [class.auth-entry-available]="category.status === 'Auth Entry Available'">
                     {{category.status}}
                   </span>
                 </td>
@@ -49,7 +52,7 @@ import { ServiceCategory, BenefitGroup } from '../../../types';
                   <div class="checkbox-container" [class.disabled]="category.disabled">
                     <mat-checkbox 
                       [(ngModel)]="category.selected"
-                      [disabled]="category.disabled || category.status === 'Unavailable'"
+                      [disabled]="category.disabled || category.status === 'Unavailable' || category.status === 'Auth Not Required'"
                       (change)="onServiceSelect(benefit.name, category)">
                     </mat-checkbox>
                     <span *ngIf="category.disabled" class="disabled-x">×</span>
@@ -161,8 +164,23 @@ import { ServiceCategory, BenefitGroup } from '../../../types';
     }
 
     .status-pill.next-available {
-      background-color: #E3F2FD;
-      color: #146BB8;
+      background-color: #e3f2fd;
+      color: #1976d2;
+    }
+
+    .status-pill.auth-required {
+      background-color: #fff3e0;
+      color: #e65100;
+    }
+
+    .status-pill.auth-not-required {
+      background-color: #f5f5f5;
+      color: #666;
+    }
+
+    .status-pill.auth-entry-available {
+      background-color: #e8f5e9;
+      color: #2e7d32;
     }
 
     .checkbox-container {
