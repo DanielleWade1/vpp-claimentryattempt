@@ -35,7 +35,7 @@ interface EntryItem {
       </button>
 
       <div class="entries-section">
-        <h3>Resumes (2)</h3>
+        <h3>All Entries ({{allEntries.length}})</h3>
         <table class="entries-table">
           <thead>
             <tr>
@@ -48,72 +48,20 @@ interface EntryItem {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>10/20/2025</td>
-              <td>Claim - Submitted</td>
-              <td>Product A</td>
+            <tr *ngFor="let entry of allEntries">
+              <td>{{entry.dos}}</td>
+              <td>{{entry.type}}</td>
+              <td>{{entry.visionBenefit}}</td>
               <td>Core: Exam, Core: Contact Lenses</td>
-              <td>80:15 Minutes</td>
+              <td>{{entry.windowCloses}}</td>
               <td>
                 <div class="action-buttons">
-                  <button mat-raised-button color="primary" (click)="close()">Edit</button>
-                  <button mat-raised-button color="warn" (click)="close()">Delete</button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>10/21/2025</td>
-              <td>Auth - Submitted</td>
-              <td>Product B</td>
-              <td>Core: Exam, Core: Contact Lenses</td>
-              <td>00:02 Minutes</td>
-              <td>
-                <div class="action-buttons">
-                  <button mat-raised-button color="primary" (click)="close()">Edit</button>
-                  <button mat-raised-button color="warn" (click)="close()">Delete</button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="entries-section">
-        <h3>Drafts (2)</h3>
-        <table class="entries-table">
-          <thead>
-            <tr>
-              <th>DOS</th>
-              <th>Type</th>
-              <th>Vision Benefit</th>
-              <th>Services/Materials</th>
-              <th>Window Closes</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>10/20/2025</td>
-              <td>Claim - Incomplete</td>
-              <td>Product A</td>
-              <td>Core: Exam, Core: Contact Lenses</td>
-              <td>20 Days</td>
-              <td>
-                <div class="action-buttons">
-                  <button mat-raised-button color="primary" (click)="close()">Resume</button>
-                  <button mat-raised-button color="warn" (click)="close()">Delete</button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>10/21/2025</td>
-              <td>Auth - Incomplete</td>
-              <td>Product B</td>
-              <td>Core: Exam, Core: Contact Lenses</td>
-              <td>00:02 Minutes</td>
-              <td>
-                <div class="action-buttons">
-                  <button mat-raised-button color="primary" (click)="close()">Resume</button>
+                  <button 
+                    mat-raised-button 
+                    color="primary" 
+                    (click)="close()">
+                    {{entry.type.includes('Submitted') ? 'Edit' : 'Resume'}}
+                  </button>
                   <button mat-raised-button color="warn" (click)="close()">Delete</button>
                 </div>
               </td>
@@ -228,6 +176,41 @@ interface EntryItem {
   `]
 })
 export class EntriesReviewModalComponent {
+  allEntries: EntryItem[] = [
+    {
+      dos: '10/20/2025',
+      type: 'Claim - Submitted',
+      visionBenefit: 'Product A',
+      services: ['Core: Exam'],
+      materials: ['Core: Contact Lenses'],
+      windowCloses: '80:15 Minutes'
+    },
+    {
+      dos: '10/21/2025',
+      type: 'Auth - Submitted',
+      visionBenefit: 'Product B',
+      services: ['Core: Exam'],
+      materials: ['Core: Contact Lenses'],
+      windowCloses: '00:02 Minutes'
+    },
+    {
+      dos: '10/20/2025',
+      type: 'Claim - Incomplete',
+      visionBenefit: 'Product A',
+      services: ['Core: Exam'],
+      materials: ['Core: Contact Lenses'],
+      windowCloses: '20 Days'
+    },
+    {
+      dos: '10/21/2025',
+      type: 'Auth - Incomplete',
+      visionBenefit: 'Product B',
+      services: ['Core: Exam'],
+      materials: ['Core: Contact Lenses'],
+      windowCloses: '00:02 Minutes'
+    }
+  ];
+
   constructor(
     private dialogRef: MatDialogRef<EntriesReviewModalComponent>
   ) {}
