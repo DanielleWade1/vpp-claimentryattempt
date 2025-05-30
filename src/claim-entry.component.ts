@@ -10,7 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { DiagnosisPointersModalComponent } from './components/diagnosis-pointers-modal/diagnosis-pointers-modal.component';
+import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/diagnosis-pointers-modal.component';
 
 @Component({
   selector: 'app-claim-entry',
