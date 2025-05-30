@@ -104,11 +104,12 @@ import { EntryRestrictionsModalComponent } from '../../entry-restrictions-modal/
 
     .product-select {
       width: 100%;
+      margin-bottom: 16px;
     }
 
     .product-info {
       margin: 16px 0;
-      padding: 0 16px 16px 16px;
+      padding: 16px;
       background: white;
       border-radius: 6px;
       border: 1px solid #e5e7eb;
