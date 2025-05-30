@@ -4,13 +4,13 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { Router } from '@angular/router';
-import { ContactFitComponent } from './components/contact-fit/contact-fit.component';
-import { ContactsBenefitsComponent } from './components/contacts-benefits/contacts-benefits.component';
-import { EyeglassesTileComponent } from './components/eyeglasses-tile/eyeglasses-tile.component';
-import { LensesTileComponent } from './components/lenses-tile/lenses-tile.component';
-import { MedSurgTileComponent } from './components/med-surg-tile/med-surg-tile.component';
-import { OtherCoverageComponent } from './components/other-coverage/other-coverage.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { DiagnosisPointersModalComponent } from '../diagnosis-pointers-modal/diagnosis-pointers-modal.component';
 
 @Component({
   selector: 'app-claim-entry',
@@ -20,444 +20,306 @@ import { OtherCoverageComponent } from './components/other-coverage/other-covera
     MatCardModule,
     MatButtonModule,
     MatIconModule,
-    MatToolbarModule,
-    ContactFitComponent,
-    ContactsBenefitsComponent,
-    EyeglassesTileComponent,
-    LensesTileComponent,
-    MedSurgTileComponent,
-    OtherCoverageComponent
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatDialogModule
   ],
   template: `
-    <div class="claim-entry-container">
-      <mat-toolbar class="top-nav">
-        <div class="left-section">
-          <img src="assets/skygen-white.svg" alt="" class="logo">
-          <div class="nav-links">
-            <a href="#" class="nav-link">Home</a>
-            <a href="#" class="nav-link">Authorization</a>
-            <a href="#" class="nav-link">Claims</a>
-            <a href="#" class="nav-link">Entity Management</a>
-            <a href="#" class="nav-link">Resource Center</a>
-            <a href="#" class="nav-link">Contact Us</a>
+    <mat-card class="claim-entry-card">
+      <mat-card-header>
+        <mat-card-title>Claim Entry</mat-card-title>
+        <div class="header-actions">
+          <button mat-button color="primary" (click)="addDiagnosisCodes()">
+            Add Diagnosis Codes
+          </button>
+        </div>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="code-type">
+          <span class="label">Code Type</span>
+          <span class="value">ICD - 10</span>
+        </div>
+
+        <div class="procedures-section">
+          <div class="procedure-row">
+            <div class="procedure-code">
+              <label>Procedure Code 1 <span class="required">Required</span></label>
+              <mat-form-field appearance="outline">
+                <mat-select formControlName="procedureCode1">
+                  <mat-option value="code1">Code 1</mat-option>
+                  <mat-option value="code2">Code 2</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="procedure-amount">
+              <label>Procedure Code Amount <span class="required">Required</span></label>
+              <mat-form-field appearance="outline">
+                <span matPrefix>$&nbsp;</span>
+                <input matInput type="number" formControlName="procedureAmount1">
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="procedure-row">
+            <div class="procedure-code">
+              <label>Procedure Code 2</label>
+              <mat-form-field appearance="outline">
+                <mat-select formControlName="procedureCode2" [disabled]="!contactFitForm.get('procedureCode1')?.value">
+                  <mat-option value="code1">Code 1</mat-option>
+                  <mat-option value="code2">Code 2</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="procedure-amount">
+              <label>Procedure Code Amount</label>
+              <mat-form-field appearance="outline">
+                <span matPrefix>$&nbsp;</span>
+                <input matInput type="number" formControlName="procedureAmount2" [disabled]="!contactFitForm.get('procedureCode1')?.value">
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="medically-necessary-section">
+            <mat-checkbox formControlName="medicallyNecessary">Medically necessary</mat-checkbox>
+          </div>
+
+          <div class="modifiers-section" *ngIf="contactFitForm.get('medicallyNecessary')?.value">
+            <div class="modifiers-grid">
+              <div class="modifier-field">
+                <label>Modifier 1</label>
+                <mat-form-field appearance="outline">
+                  <mat-select formControlName="modifier1">
+                    <mat-option value="mod1">Modifier 1</mat-option>
+                    <mat-option value="mod2">Modifier 2</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="modifier-field">
+                <label>Modifier 2</label>
+                <mat-form-field appearance="outline">
+                  <mat-select formControlName="modifier2">
+                    <mat-option value="mod1">Modifier 1</mat-option>
+                    <mat-option value="mod2">Modifier 2</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="modifier-field">
+                <label>Modifier 3</label>
+                <mat-form-field appearance="outline">
+                  <mat-select formControlName="modifier3">
+                    <mat-option value="mod1">Modifier 1</mat-option>
+                    <mat-option value="mod2">Modifier 2</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="modifier-field">
+                <label>Modifier 4</label>
+                <mat-form-field appearance="outline">
+                  <mat-select formControlName="modifier4">
+                    <mat-option value="mod1">Modifier 1</mat-option>
+                    <mat-option value="mod2">Modifier 2</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="toolbar-right">
-          <button class="personal-info-button">Hello, Albert Gilbert</button>
-          <mat-icon>notifications</mat-icon>
-        </div>
-      </mat-toolbar>
 
-      <div class="content-wrapper">
-        <button mat-button class="back-button" (click)="goBack()">
-          <mat-icon>arrow_back</mat-icon>
-          Back
-        </button>
-        <h1>Claim Entry</h1>
-        <mat-card class="info-card">
-          <mat-card-content>
-            <div class="card-header">
-              <h2>Selected Claim Information</h2>
-              <button mat-button class="update-button">Update Selected Information</button>
+        <mat-card-actions>
+          <div class="actions-container">
+            <button mat-button color="primary" (click)="clearSection()">Clear Section</button>
+            <div class="total-cost">
+              <span>Total Contact Fit Cost</span>
+              <span class="amount">{{calculateTotalCost() | number:'1.2-2'}}</span>
             </div>
-
-            <div class="info-grid">
-              <div class="info-section">
-                <mat-card class="sub-card">
-                  <mat-card-content>
-                    <h3>Patient: Tony Perez (DOB 05/22/1964)</h3>
-                    <p>4002 Apple Street</p>
-                    <p>Mequon, WI 53092</p>
-                  </mat-card-content>
-                </mat-card>
-
-                <mat-card class="sub-card">
-                  <mat-card-content>
-                    <h3>Provider: Fuzzy Gizmo</h3>
-                    <p>Fix'n Teeth Shop</p>
-                    <p>4002 Apple Street</p>
-                    <p>Mequon, WI 53092</p>
-                  </mat-card-content>
-                </mat-card>
-              </div>
-
-              <mat-card class="sub-card product-card">
-                <mat-card-content>
-                  <h3>Selected Product: Product A</h3>
-                  <div class="product-grid">
-                    <div class="product-item">
-                      <span class="label">Eligible</span>
-                      <span class="value">
-                        <span class="status-badge">Yes</span>
-                      </span>
-                    </div>
-                    <div class="product-item">
-                      <span class="label">Client Product ID</span>
-                      <span class="value">1043</span>
-                    </div>
-                    <div class="product-item">
-                      <span class="label">Product Class/Group</span>
-                      <span class="value">Commercial/SKYGEN</span>
-                    </div>
-                    <div class="product-item">
-                      <span class="label">Effective Dates</span>
-                      <span class="value">01/02/2025 - 12/20/2025</span>
-                    </div>
-                    <div class="product-item">
-                      <span class="label">Date of Service</span>
-                      <span class="value">02/20/2025</span>
-                    </div>
-                    <div class="product-item">
-                      <span class="label">Other</span>
-                      <span class="value">Other?</span>
-                    </div>
-                  </div>
-                </mat-card-content>
-              </mat-card>
-            </div>
-
-            <div class="services-section">
-              <h3>Selected Services</h3>
-              <div class="services-grid">
-                <div class="service-chip">
-                  <span class="chip-label">Selected</span>
-                  <span class="chip-text">Exam Benefit</span>
-                </div>
-                <div class="service-chip">
-                  <span class="chip-label">Selected</span>
-                  <span class="chip-text">Contact Fit</span>
-                </div>
-                <div class="service-chip">
-                  <span class="chip-label">Selected</span>
-                  <span class="chip-text">Contacts Benefits</span>
-                </div>
-                <div class="service-chip">
-                  <span class="chip-label">Selected</span>
-                  <span class="chip-text">Frame Benefit</span>
-                </div>
-                <div class="service-chip">
-                  <span class="chip-label">Selected</span>
-                  <span class="chip-text">Lenses Benefit</span>
-                </div>
-                <div class="service-chip">
-                  <span class="chip-label">Selected</span>
-                  <span class="chip-text">Med/Surg</span>
-                </div>
-              </div>
-            </div>
-          </mat-card-content>
-        </mat-card>
-
-        <app-contact-fit></app-contact-fit>
-        <app-contacts-benefits></app-contacts-benefits>
-        <app-eyeglasses-tile></app-eyeglasses-tile>
-        <app-lenses-tile></app-lenses-tile>
-        <app-med-surg-tile></app-med-surg-tile>
-        <app-other-coverage></app-other-coverage>
-      </div>
-    </div>
+          </div>
+        </mat-card-actions>
+      </mat-card-content>
+    </mat-card>
   `,
   styles: [`
-    .claim-entry-container {
-      min-height: 100vh;
-      background-color: #f5f5f5;
+    .claim-entry-card {
+      margin: 24px 0;
     }
 
-    .top-nav {
-      background-color: #002F81;
-      color: white;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 60px;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      height: 64px;
+    mat-card-header {
+      padding: 16px;
+      border-bottom: 1px solid #eee;
     }
 
-    .left-section {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-    }
-
-    .logo {
-      height: 40px;
-      width: auto;
-      object-fit: contain;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 24px;
-    }
-
-    .nav-link {
-      color: white;
-      text-decoration: none;
+    mat-card-title {
+      margin: 0;
+      font-size: 20px;
       font-weight: 500;
-      padding: 8px 0;
-      position: relative;
-      font-size: 14px;
     }
 
-    .nav-link:hover::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background-color: white;
-    }
-
-    .toolbar-right {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-    }
-
-    .personal-info-button {
-      background-color: #042462 !important;
-      color: white;
-      font-size: 14px !important;
-      font-family: 'Inter', sans-serif !important;
-      font-weight: var(--font-weight-medium) !important;
-      border: none;
-      cursor: pointer;
-      padding: 8px 20px;
-      border-radius: 100pt;
-    }
-
-    .content-wrapper {
+    mat-card-content {
       padding: 24px;
-      max-width: 1800px;
-      margin: 0 auto;
     }
 
-    h1 {
-      font-size: 32px;
-      font-weight: 500;
-      color: #333;
-      margin: 0 0 24px 0;
-    }
-
-    .back-button {
-      color: #002F81;
+    .code-type {
       margin-bottom: 24px;
-      padding: 0;
     }
 
-    .back-button mat-icon {
+    .code-type .label {
+      color: #666;
       margin-right: 8px;
     }
 
-    .info-card {
-      background: white;
-      border-radius: 8px;
-      margin-bottom: 24px;
-    }
-
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 24px;
-    }
-
-    .card-header h2 {
-      font-size: 20px;
+    .code-type .value {
       font-weight: 500;
-      margin: 0;
-    }
-
-    .update-button {
-      color: #1976d2;
-    }
-
-    .info-grid {
-      display: grid;
-      gap: 24px;
     }
 
     .info-section {
+      margin-bottom: 20px;
+    }
+
+    .procedures-section {
+      margin-bottom: 32px;
+    }
+
+    .procedure-row {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 2fr 1fr;
       gap: 24px;
-      margin-bottom: 24px;
+      margin-bottom: 16px;
     }
 
-    .sub-card {
-      background: #f9fafb;
-      border: 1px solid #e5e7eb;
-      border-radius: 8px;
+    .procedure-code, .procedure-amount {
+      display: flex;
+      flex-direction: column;
     }
 
-    .sub-card h3 {
-      font-size: 16px;
+    label {
+      margin-bottom: 8px;
+      color: #333;
       font-weight: 500;
-      margin: 0 0 12px 0;
     }
 
-    .sub-card p {
-      margin: 0 0 8px 0;
-      color: #666;
+    .required {
+      color: #f44336;
+      margin-left: 4px;
     }
 
-    .product-card h3 {
-      font-size: 16px;
-      font-weight: 500;
-      margin: 0 0 16px 0;
+    mat-form-field {
+      width: 100%;
     }
 
-    .product-grid {
+    .medically-necessary-section {
+      margin: 16px 0;
+    }
+
+    .modifiers-section {
+      margin: 16px 0;
+    }
+
+    .modifiers-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 16px;
     }
 
-    .product-item {
+    .modifier-field {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 8px;
     }
 
-    .label {
+    .modifier-field label {
       color: #666;
       font-size: 14px;
     }
 
-    .value {
-      font-weight: 500;
+    mat-card-actions {
+      padding: 16px;
+      border-top: 1px solid #eee;
     }
 
-    .status-badge {
-      display: inline-block;
-      padding: 4px 12px;
-      background-color: #4caf50;
-      color: white;
-      border-radius: 12px;
-      font-size: 12px;
-    }
-
-    .services-section {
-      margin-top: 24px;
-    }
-
-    .services-section h3 {
-      font-size: 16px;
-      font-weight: 500;
-      margin: 0 0 16px 0;
-    }
-
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px;
-    }
-
-    .service-chip {
-      background: #f5f5f5;
-      border-radius: 8px;
-      padding: 12px;
+    .actions-container {
       display: flex;
-      flex-direction: column;
-      gap: 4px;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    .chip-label {
-      color: white;
-      background: #4caf50;
-      padding: 2px 8px;
-      border-radius: 12px;
-      font-size: 12px;
-      align-self: flex-start;
-    }
-
-    .chip-text {
+    .total-cost {
+      display: flex;
+      align-items: center;
+      gap: 16px;
       font-weight: 500;
     }
 
-    @media (max-width: 1200px) {
-      .services-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 1024px) {
-      .services-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .product-tiles {
-        grid-template-columns: 1fr;
-      }
-
-      .info-tiles {
-        grid-template-columns: 1fr;
-      }
-
-      .claim360-container {
-        padding: 16px;
-      }
+    .amount {
+      font-size: 20px;
+      color: #002F81;
     }
 
     @media (max-width: 768px) {
-      .top-nav {
-        padding: 0 20px;
-      }
-
-      .nav-links {
-        display: none;
-      }
-
-      .details-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .radio-group {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
-      }
-
-      .referral-code {
-        margin-left: 0;
-      }
-
       .procedure-row {
         grid-template-columns: 1fr;
         gap: 16px;
       }
 
-      .question-row {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-      }
-
-      .diabetes-fields {
-        grid-template-columns: 1fr;
-      }
-
       .modifiers-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
       }
     }
 
     @media (max-width: 480px) {
-      .product-grid {
+      .modifiers-grid {
         grid-template-columns: 1fr;
       }
     }
-  `],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  `]
 })
 export class ClaimEntryComponent {
-  constructor(private router: Router) {}
+  contactFitForm: FormGroup;
+  diagnosisPointers: string[] = new Array(8).fill('');
 
-  goBack() {
-    this.router.navigate(['/claim360']);
+  constructor(
+    private fb: FormBuilder,
+    private dialog: MatDialog
+  ) {
+    this.contactFitForm = this.fb.group({
+      procedureCode1: [''],
+      procedureAmount1: [null],
+      procedureCode2: [''],
+      procedureAmount2: [null],
+      medicallyNecessary: [false],
+      modifier1: [''],
+      modifier2: [''],
+      modifier3: [''],
+      modifier4: ['']
+    });
+  }
+
+  addDiagnosisCodes() {
+    const dialogRef = this.dialog.open(DiagnosisPointersModalComponent, {
+      data: { pointers: this.diagnosisPointers },
+      width: '600px',
+      maxHeight: '90vh'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.diagnosisPointers = result;
+      }
+    });
+  }
+
+  calculateTotalCost(): number {
+    const amount1 = this.contactFitForm.get('procedureAmount1')?.value || 0;
+    const amount2 = this.contactFitForm.get('procedureAmount2')?.value || 0;
+    return amount1 + amount2;
+  }
+
+  clearSection() {
+    this.contactFitForm.reset({
+      medicallyNecessary: false
+    });
   }
 }
